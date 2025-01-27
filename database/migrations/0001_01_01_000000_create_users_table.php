@@ -40,15 +40,15 @@ return new class extends Migration
 
         User::create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password123'), // Admin jelszó titkosítva
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('Admin123@'), // Admin jelszó titkosítva
             'role' => 0, // Admin szerepkör
         ]);
 
         User::create([
             'name' => 'Normal User',
-            'email' => 'user@example.com',
-            'password' => bcrypt('password123'), // Felhasználó jelszó titkosítva
+            'email' => 'user@gmail.com',
+            'password' => bcrypt('User123@'), // Felhasználó jelszó titkosítva
             'role' => 1, // Felhasználó szerepkör
         ]);
 
