@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TermekController;
 
 use App\Http\Controllers\FizetesController;
+use App\Http\Controllers\UserController;
+
+Route::get('/felhasznalok', [UserController::class, 'index']);
+
 
 Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
 
