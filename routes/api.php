@@ -18,6 +18,7 @@ Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymen
 Route::get('/termekek', [TermekController::class, 'index']);
 Route::get('/termekek/{id}', [TermekController::class, 'show']);
 
+Route::delete('/felhasznalok/{id}', [UserController::class, 'destroy']);
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
