@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +11,7 @@
             <li>{{ $termek['cim'] }} - {{ $termek['ar'] }} Ft</li>
         @endforeach
     </ul>
-    <p>Végösszeg: {{ $total }} Ft</p>
+    <p><strong>Végösszeg:</strong> {{ $total }} Ft</p>
     <p>Köszönjük, hogy nálunk vásárolt!</p>
 </body>
 </html>
