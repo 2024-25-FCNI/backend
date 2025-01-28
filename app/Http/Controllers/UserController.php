@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        return response()->json($users);
+        try {
+            $users = User::all();
+            return response()->json($users);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Hiba történt a felhasználók lekérésekor'], 500);
+        }
     }
-    public function destroy($id)
+
+
+
+public function destroy($id)
 {
     try {
         Log::info("Felhasználó törlése: " . $id);
@@ -33,6 +41,7 @@ class UserController extends Controller
         return response()->json(['error' => 'Belső szerverhiba'], 500);
     }
 }
+
 
 
 }
