@@ -6,6 +6,11 @@ use App\Http\Controllers\TermekController;
 
 use App\Http\Controllers\FizetesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VasarlasTetelController;
+
+
+Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
+
 
 Route::get('/felhasznalok', [UserController::class, 'index']);
 
