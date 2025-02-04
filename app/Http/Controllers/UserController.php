@@ -22,7 +22,9 @@ class UserController extends Controller
 
 public function destroy($id)
 {
-    try {
+
+    User::find($id)->delete();
+    /* try {
         Log::info("Felhasználó törlése: " . $id);
 
         // Ellenőrizzük, hogy a `user_id` alapján található-e felhasználó
@@ -39,9 +41,9 @@ public function destroy($id)
     } catch (\Exception $e) {
         Log::error("Hiba történt a felhasználó törlésekor: " . $e->getMessage());
         return response()->json(['error' => 'Belső szerverhiba'], 500);
-    }
-}
+    } */
 
+}
 
 
 }
