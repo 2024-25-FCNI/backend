@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class VasarlasTetelController extends Controller
 {
+
+    
+
+
     public function getVasarlasAnalitika(Request $request)
 {
     $kezdodatum = $request->input('kezdodatum'); // Pl.: 2024-01-01
