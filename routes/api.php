@@ -10,6 +10,7 @@ use App\Http\Controllers\VasarlasTetelController;
 
 
 Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
+
 Route::get('/vasarlasok-analitika-idolepes', [VasarlasTetelController::class, 'getBevetelTrend']);
 
 
@@ -23,8 +24,6 @@ Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymen
 // Termékek listázása
 Route::get('/termekek', [TermekController::class, 'index']);
 Route::get('/termekek/{id}', [TermekController::class, 'show']);
-
-
 Route::delete('/felhasznalok/{id}', [UserController::class, 'destroy']);
 
 
