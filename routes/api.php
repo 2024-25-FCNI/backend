@@ -12,6 +12,9 @@ use App\Http\Controllers\VasarlasTetelController;
 
 Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
 
+Route::get('/vasarlasok-analitika-idolepes', [VasarlasTetelController::class, 'getBevetelTrend']);
+
+
 Route::get('/felhasznalok', [UserController::class, 'index']);
 
 Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
