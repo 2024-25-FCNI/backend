@@ -18,6 +18,12 @@ return new class extends Migration
             $table->date('datum');
             $table->timestamps();
         });
+
+        // Ez a constraint biztosítja, hogy egy vásárlás mindig egy létező user-hez legyen kötve.
+        // Ha a felhasználó törlődik, akkor a hozzá tartozó vásárlások is automatikusan törlődnek.
+        Schema::table('vasarlas_fejs', function (Blueprint $table) {
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**
@@ -27,4 +33,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('vasarlas_fejs');
     }
+
+
+    
 };
