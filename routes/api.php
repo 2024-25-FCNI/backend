@@ -8,7 +8,7 @@ use App\Http\Controllers\FizetesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
-
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
 
@@ -17,9 +17,11 @@ Route::get('/vasarlasok-analitika-idolepes', [VasarlasTetelController::class, 'g
 
 Route::get('/felhasznalok', [UserController::class, 'index']);
 
-Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+ */
+Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
+    ->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
 
-// Termékek listázása
 Route::get('/termekek', [TermekController::class, 'index']);
 Route::get('/termekek/{id}', [TermekController::class, 'show']);
 
