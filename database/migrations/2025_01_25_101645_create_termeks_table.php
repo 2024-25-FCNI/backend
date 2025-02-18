@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('hozzaferesi_ido');
             $table->integer('ar');
             $table->string('jelzes');
-            $table->foreignId('cimke_id')->references('cimke_id')->on('cimkes');
+           // $table->foreignId('cimke_id')->references('cimke_id')->on('cimkes');
             $table->string('kep');
             $table->timestamps();
 
@@ -35,7 +35,7 @@ return new class extends Migration
                 'hozzaferesi_ido' => 30,
                 'ar' => 5000,
                 'jelzes' => 'új',
-                'cimke_id' => 1,
+                // 'cimke_id' => 1,
                 'kep' => '/images/termek1.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -47,7 +47,7 @@ return new class extends Migration
                 'hozzaferesi_ido' => 60,
                 'ar' => 8000,
                 'jelzes' => 'akciós',
-                'cimke_id' => 2,
+                // 'cimke_id' => 2,
                 'kep' => '/images/termek2.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -59,7 +59,7 @@ return new class extends Migration
                 'hozzaferesi_ido' => 90,
                 'ar' => 10000,
                 'jelzes' => 'top',
-                'cimke_id' => 3,
+                // 'cimke_id' => 3,
                 'kep' => '/images/termek3.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -71,7 +71,7 @@ return new class extends Migration
                 'hozzaferesi_ido' => 120,
                 'ar' => 15000,
                 'jelzes' => 'új',
-                'cimke_id' => 4,
+                // 'cimke_id' => 4,
                 'kep' => '/images/termek4.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -83,7 +83,7 @@ return new class extends Migration
                 'hozzaferesi_ido' => 180,
                 'ar' => 20000,
                 'jelzes' => 'akciós',
-                'cimke_id' => 5,
+                // 'cimke_id' => 5,
                 'kep' => '/images/termek5.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -95,7 +95,7 @@ return new class extends Migration
                 'hozzaferesi_ido' => 240,
                 'ar' => 25000,
                 'jelzes' => 'top',
-                'cimke_id' => 6,
+                // 'cimke_id' => 6,
                 'kep' => '/images/termek6.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
