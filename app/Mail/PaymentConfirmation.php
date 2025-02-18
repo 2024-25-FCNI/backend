@@ -4,6 +4,9 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
 class PaymentConfirmation extends Mailable
@@ -21,9 +24,29 @@ class PaymentConfirmation extends Mailable
         $this->total = $total;
     }
 
-    public function build()
+    /**
+     * E-mail boríték beállítása (Feladó, Tárgy)
+     */
+    public function envelope()
     {
-        return $this->subject('Fizetés Visszaigazolása')
-                    ->view('emails.payment_confirmation');
+        return new Envelope(
+            from: new Address('noreply@webshop.com', 'Webshop Admin'),
+            subject: 'Fizetés Visszaigazolása',
+        );
+    }
+
+    /**
+     * E-mail tartalom beállítása (Blade nézet)
+     */
+    public function content()
+    {
+        return new Content(
+            view: 'emails.payment_confirmation',
+            with: [
+                'user' => $this->user,
+                'kosar' => $this->kosar,
+                'total' => $this->total,
+            ],
+        );
     }
 }
