@@ -30,7 +30,7 @@ class PaymentConfirmation extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('noreply@webshop.com', 'Webshop Admin'),
+            from: new Address('tesztproba20@gmail.com', 'Webshop Admin'),
             subject: 'Fizetés Visszaigazolása',
         );
     }
