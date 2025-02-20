@@ -8,7 +8,43 @@ use Illuminate\Http\Request;
 class VasarlasFejController extends Controller
 {
     
+    public function index()
+    {
+        return response()->json(VasarlasFej::all());
+    }
 
+    public function show($id)
+    {
+        return response()->json(VasarlasFej::findOrFail($id));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'osszeg' => 'required|integer',
+            'datum' => 'required|date',
+        ]);
+
+        $vasarlas = VasarlasFej::create($validated);
+        return response()->json($vasarlas, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $vasarlas = VasarlasFej::findOrFail($id);
+        $validated = $request->validate([
+            'osszeg' => 'required|integer',
+            'datum' => 'required|date',
+        ]);
+        $vasarlas->update($validated);
+        return response()->json($vasarlas);
+    }
+
+    public function destroy($id)
+    {
+        VasarlasFej::destroy($id);
+        return response()->json(null, 204);
+    }
 
 // Egy adott felhasználó vásárlásainak lekérdezése ---
 public function getVasarlasokByUser($userId) {

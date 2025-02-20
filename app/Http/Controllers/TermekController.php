@@ -56,4 +56,41 @@ class TermekController extends Controller
     {
         return Termek::where('cimke_id', $cimkeId)->get();
     }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'cim' => 'required|string|max:255',
+            'leiras' => 'nullable|string',
+            'url' => 'required|string',
+            'hozzaferesi_ido' => 'integer',
+            'ar' => 'integer',
+            'jelzes' => 'string',
+            'kep' => 'string',
+        ]);
+
+        $termek = Termek::create($validated);
+        return response()->json($termek, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $termek = Termek::findOrFail($id);
+        $validated = $request->validate([
+            'cim' => 'required|string|max:255',
+            'leiras' => 'nullable|string',
+            'url' => 'required|string',
+            'hozzaferesi_ido' => 'integer',
+            'ar' => 'integer',
+            'jelzes' => 'string',
+            'kep' => 'string',
+        ]);
+        $termek->update($validated);
+        return response()->json($termek);
+    }
+
+    public function destroy($id)
+    {
+        Termek::destroy($id);
+        return response()->json(null, 204);
+    }
 }
