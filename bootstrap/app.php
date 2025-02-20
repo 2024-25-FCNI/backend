@@ -1,8 +1,11 @@
-<?php
+<?php 
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+
+
+
 
 $app = new Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
@@ -32,3 +35,12 @@ return $app->configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+
+$app->middleware([
+    \Illuminate\Http\Middleware\HandleCors::class,
+]);
+
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');

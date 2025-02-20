@@ -16,6 +16,7 @@ class FizetesController extends Controller
         $user = Auth::user(); // Bejelentkezett felhasználó
         $kosar = $request->input('kosar'); // Kosár tartalma
         $total = $request->input('total'); // Végösszeg
+        dd($kosar);
 
         // Ellenőrzés
         if (!$user || !$kosar || !$total) {
