@@ -8,7 +8,27 @@ use Illuminate\Support\Facades\DB;
 
 class VasarlasTetelController extends Controller
 {
+    public function index()
+    {
+        return response()->json(VasarlasTetel::all());
+    }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'vasarlas_id' => 'required|exists:vasarlas_fejs,vasarlas_id',
+            'termek_id' => 'required|exists:termeks,termek_id',
+        ]);
+
+        $vasarlasTetel = VasarlasTetel::create($validated);
+        return response()->json($vasarlasTetel, 201);
+    }
+
+    public function destroy($vasarlas_id, $termek_id)
+    {
+        VasarlasTetel::where('vasarlas_id', $vasarlas_id)->where('termek_id', $termek_id)->delete();
+        return response()->json(null, 204);
+    }
     
 
 

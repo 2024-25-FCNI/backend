@@ -3,35 +3,27 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\VasarlasTetel;
+use App\Models\VasarlasFej;
+use App\Models\Termek;
 
 class VasarlasTetelTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-
     use RefreshDatabase;
 
-    public function test_vasarlasok_analitika_lekerese()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function vasarlas_tetel_letrehozhato()
     {
-        $response = $this->get('/api/vasarlasok-analitika');
+        $vasarlas = VasarlasFej::create(['id' => 1, 'osszeg' => 10000, 'datum' => now()->toDateString()]);
+        $termek = Termek::create(['termek_id' => 1, 'cim' => 'Teszt Termék', 'ar' => 5000]);
 
-        $response->assertStatus(200);
-    }
+        $response = $this->postJson('/api/vasarlas_tetelek', [
+            'vasarlas_id' => $vasarlas->id,
+            'termek_id' => $termek->termek_id
+        ]);
 
-   /*  public function test_bevetel_trend_lekerese()
-    {
-        $response = $this->get('/api/vasarlasok-analitika-idolepes');
-
-        $response->assertStatus(200);
-    }
- */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('vasarlas_tetels', ['vasarlas_id' => 1, 'termek_id' => 1]);
     }
 }

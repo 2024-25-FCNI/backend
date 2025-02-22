@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CimkeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TermekController;
 
 use App\Http\Controllers\FizetesController;
+use App\Http\Controllers\KapcsoloController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
@@ -31,9 +33,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-
 // Publikus végpontok
 Route::get('/termekek/legujabb', [TermekController::class, 'getLatestTermekek']);
 Route::get('/termekek/legdragabb', [TermekController::class, 'getLegdragabbTermek']);
@@ -54,3 +53,37 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/vasarlasok/utolso', [VasarlasFejController::class, 'getUtolsoVasarlas']);
     Route::get('/vasarlasok/tetelek/osszeg', [VasarlasTetelController::class, 'getVasarlasTetelOsszeg']);
 });
+
+Route::post('/kapcsolo', [KapcsoloController::class, 'store']);
+
+
+// 🌟 Címkék (cimkes)
+Route::get('/cimkek', [CimkeController::class, 'index']);          // Minden címke lekérdezése
+Route::get('/cimkek/{id}', [CimkeController::class, 'show']);       // Egy címke lekérdezése
+Route::post('/cimkek', [CimkeController::class, 'store']);         // Új címke létrehozása
+Route::put('/cimkek/{id}', [CimkeController::class, 'update']);    // Címke módosítása
+Route::delete('/cimkek/{id}', [CimkeController::class, 'destroy']); // Címke törlése
+
+// 🌟 Kapcsolók (kapcsolos) - Termékek és címkék összekapcsolása
+Route::get('/kapcsolok', [KapcsoloController::class, 'index']);   // Minden kapcsolat lekérdezése
+Route::post('/kapcsolok', [KapcsoloController::class, 'store']);  // Új kapcsolat létrehozása
+Route::delete('/kapcsolok/{termek_id}/{cimke_id}', [KapcsoloController::class, 'destroy']); // Kapcsolat törlése
+
+// 🌟 Termékek (termeks)
+Route::get('/termekek', [TermekController::class, 'index']);          // Minden termék lekérdezése
+Route::get('/termekek/{id}', [TermekController::class, 'show']);       // Egy termék lekérdezése
+Route::post('/termekek', [TermekController::class, 'store']);         // Új termék létrehozása
+Route::put('/termekek/{id}', [TermekController::class, 'update']);    // Termék módosítása
+Route::delete('/termekek/{id}', [TermekController::class, 'destroy']); // Termék törlése
+
+// 🌟 Vásárlások Fejlécei (vasarlas_fejs)
+Route::get('/vasarlasok', [VasarlasFejController::class, 'index']);    // Minden vásárlás lekérdezése
+Route::get('/vasarlasok/{id}', [VasarlasFejController::class, 'show']); // Egy vásárlás lekérdezése
+Route::post('/vasarlasok', [VasarlasFejController::class, 'store']);   // Új vásárlás létrehozása
+Route::put('/vasarlasok/{id}', [VasarlasFejController::class, 'update']); // Vásárlás módosítása
+Route::delete('/vasarlasok/{id}', [VasarlasFejController::class, 'destroy']); // Vásárlás törlése
+
+// 🌟 Vásárlások Tételei (vasarlas_tetels)
+Route::get('/vasarlas_tetelek', [VasarlasTetelController::class, 'index']);   // Minden vásárlási tétel lekérdezése
+Route::post('/vasarlas_tetelek', [VasarlasTetelController::class, 'store']);  // Új vásárlási tétel hozzáadása
+Route::delete('/vasarlas_tetelek/{vasarlas_id}/{termek_id}', [VasarlasTetelController::class, 'destroy']); // Vásárlási tétel törlése

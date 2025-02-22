@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,13 +20,27 @@ return new class extends Migration
             $table->primary(['termek_id', 'cimke_id']);
             $table->timestamps();
         });
-    }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('kapcsolos');
-    }
+    DB::table('kapcsolos')->insert([
+        ['termek_id' => 1, 'cimke_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 2, 'cimke_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 3, 'cimke_id' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 4, 'cimke_id' => 4, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 5, 'cimke_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 6, 'cimke_id' => 6, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 1, 'cimke_id' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 2, 'cimke_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 3, 'cimke_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ['termek_id' => 4, 'cimke_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+    ]);
+}
+
+/**
+ * Reverse the migrations.
+ */
+public function down(): void
+{
+    Schema::dropIfExists('kapcsolos');
+}
 };
+
