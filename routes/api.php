@@ -12,6 +12,13 @@ use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+
+Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword']);
+
+
 
 Route::get('/send-mail', [MailController::class, 'sendTestMail']);
 
