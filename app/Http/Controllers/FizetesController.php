@@ -1,13 +1,12 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\PaymentConfirmation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use App\Mail\DemoMail; // 🔥 Ezt importáljuk!
 
 class FizetesController extends Controller
 {
@@ -16,22 +15,28 @@ class FizetesController extends Controller
         $user = Auth::user(); // Bejelentkezett felhasználó
         $kosar = $request->input('kosar'); // Kosár tartalma
         $total = $request->input('total'); // Végösszeg
-        dd($kosar);
+
+        // 🔥 A `dd($kosar);` sor törölve, mert megállítaná a kód futását!
 
         // Ellenőrzés
         if (!$user || !$kosar || !$total) {
             return response()->json(['message' => 'Hibás adatok'], 400);
         }
 
+        // E-mail adatok beállítása
+        $mailData = [
+            'title' => 'Fizetési visszaigazolás',
+            'body' => "Köszönjük a vásárlást, {$user->name}!\nÖsszeg: {$total} Ft",
+            'kosar' => $kosar // Ha a kosár tartalmát is be akarod tenni az emailbe
+        ];
+
         // E-mail küldés
         try {
-            Mail::to($user->email)->send(new PaymentConfirmation($user, $kosar, $total));
+            Mail::to($user->email)->send(new DemoMail($mailData)); // 🔥 Most már `DemoMail`-t hívunk!
             return response()->json(['message' => 'E-mail sikeresen elküldve!']);
         } catch (\Exception $e) {
             Log::channel('single')->error("E-mail küldési hiba: " . $e->getMessage());
             return response()->json(['message' => 'Nem sikerült elküldeni az e-mailt.'], 500);
         }
-        
     }
 }
-

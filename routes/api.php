@@ -11,6 +11,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use App\Http\Controllers\MailController;
+
+Route::get('/send-mail', [MailController::class, 'sendTestMail']);
+
 
 Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
 
@@ -21,8 +25,10 @@ Route::get('/felhasznalok', [UserController::class, 'index']);
 
 /* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
  */
-Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
-    ->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']); 
+//middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']-> */
+Route::middleware(['auth:sanctum'])->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+
 
 Route::get('/termekek', [TermekController::class, 'index']);
 Route::get('/termekek/{id}', [TermekController::class, 'show']);
