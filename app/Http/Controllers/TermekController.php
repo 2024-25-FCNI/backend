@@ -89,8 +89,9 @@ class TermekController extends Controller
     }
 
     public function destroy($id)
-    {
-        Termek::destroy($id);
-        return response()->json(null, 204);
-    }
+{
+    Termek::find($id)->delete(); 
+    
+}
+
 }

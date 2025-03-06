@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/api/send-payment-confirmation', // Kivételként adjuk hozzá a fizetés API-t
+        'api/termekek/*', // Ez kikapcsolja a CSRF védelmet a termékek API esetében
+        'sanctum/csrf-cookie'
     ];
 }

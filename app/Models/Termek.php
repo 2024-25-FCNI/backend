@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Termek extends Model
 {
-    /** @use HasFactory<\Database\Factories\TermekFactory> */
     use HasFactory;
+
+    protected $primaryKey = 'termek_id'; // Laravelnek megmondjuk, hogy ne az 'id'-t használja
+
     protected $fillable = [
         'cim',
         'leiras',
@@ -19,3 +21,4 @@ class Termek extends Model
         'kep'
     ];
 }
+
