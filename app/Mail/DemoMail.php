@@ -7,7 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth; // 🔥 Auth osztály importálása
 
 class DemoMail extends Mailable
 {
@@ -23,7 +25,17 @@ class DemoMail extends Mailable
      */
     public function __construct($mailData)
     {
-        $this->mailData = $mailData;
+        // Számoljuk ki a teljes összeget, ha nincs megadva
+        $total = collect($mailData['kosar'] ?? [])->sum('ar');
+
+        // 🔥 Biztosítjuk, hogy az Auth osztály működik, és van bejelentkezett felhasználó
+        $name = $mailData['name'] ?? (Auth::check() ? Auth::user()->name : 'Vásárló');
+
+        $this->mailData = [
+            'name' => $name,
+            'total' => $total,
+            'kosar' => $mailData['kosar'] ?? [],
+        ];
     }
 
     /**
@@ -32,7 +44,8 @@ class DemoMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Demo Mail',
+            subject: 'Fizetési visszaigazolás',
+            from: new Address('tesztproba20@gmail.com', 'Webshop')
         );
     }
 
@@ -42,7 +55,7 @@ class DemoMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.demo', 
+            view: 'emails.demo',
         );
     }
 
