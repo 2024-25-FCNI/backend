@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/vasarlasok/fejek', [VasarlasFejController::class, 'getVasarlasFejWithUser']);
     Route::get('/vasarlasok/utolso', [VasarlasFejController::class, 'getUtolsoVasarlas']);
     Route::get('/vasarlasok/tetelek/osszeg', [VasarlasTetelController::class, 'getVasarlasTetelOsszeg']);
+
 });
 
 Route::post('/kapcsolo', [KapcsoloController::class, 'store']);
@@ -83,11 +84,10 @@ Route::post('/kapcsolok', [KapcsoloController::class, 'store']);  // Új kapcsol
 Route::delete('/kapcsolok/{termek_id}/{cimke_id}', [KapcsoloController::class, 'destroy']); // Kapcsolat törlése
 
 // 🌟 Termékek (termeks)
-Route::get('/termekek', [TermekController::class, 'index']);          // Minden termék lekérdezése
 Route::get('/termekek/{id}', [TermekController::class, 'show']);       // Egy termék lekérdezése
 Route::post('/termekek', [TermekController::class, 'store']);         // Új termék létrehozása
-Route::put('/termekek/{id}', [TermekController::class, 'update']);    // Termék módosítása
-Route::delete('/termekek/{id}', [TermekController::class, 'destroy']); // Termék törlése
+Route::delete('/termekek/{termek_id}', [TermekController::class, 'destroy']);
+
 
 // 🌟 Vásárlások Fejlécei (vasarlas_fejs)
 Route::get('/vasarlasok', [VasarlasFejController::class, 'index']);    // Minden vásárlás lekérdezése
