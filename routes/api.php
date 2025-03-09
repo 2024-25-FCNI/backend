@@ -10,9 +10,14 @@ use App\Http\Controllers\KapcsoloController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+
+Route::middleware('auth:sanctum')->get('/ellenoriz-vasarlas/{termekId}', [VasarlasFejController::class, 'ellenorizVasarlas']);
+
+
+Route::middleware('auth:sanctum')->post('/vasarlas', [VasarlasFejController::class, 'store']);
 
 
 Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword']);
