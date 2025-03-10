@@ -19,12 +19,14 @@ class TermekController extends Controller
         // Válasz JSON formátumban
         return response()->json($termekek);
     }
+    
+
     public function show($id)
     {
         try {
-            Log::info("Lekérdezett termék ID: " . $id); // Debug log
+            Log::info("Lekérdezett termék ID: " . $id);
 
-            // Mivel a táblában a kulcs neve 'termek_id', nem 'id', ezért módosítanunk kell a lekérdezést
+            // 🔹 A `termek_id` a helyes mezőnév, nem `id`!
             $termek = Termek::where('termek_id', $id)->first();
 
             if (!$termek) {
@@ -34,9 +36,10 @@ class TermekController extends Controller
             return response()->json($termek);
         } catch (\Exception $e) {
             Log::error("Hiba a termék lekérdezésekor: " . $e->getMessage());
-            return response()->json(['error' => 'Belső szerverhiba'], 500);
+            return response()->json(['error' => 'Hiba történt a termék lekérdezésekor.'], 500);
         }
     }
+    
 
 
     // A legújabb 5 termék lekérdezése

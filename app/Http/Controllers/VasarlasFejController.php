@@ -14,10 +14,8 @@ class VasarlasFejController extends Controller
     {
         $user = Auth::user();
 
-        // Megkeressük a vásárlás fejlécét, hogy a user valóban megvette-e a terméket
-        $vasarolt = VasarlasTetel::whereHas('vasarlas', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
+        // 🔹 Megkeressük a vásárlás fejlécét, hogy a user valóban megvette-e a terméket
+        $vasarolt = VasarlasTetel::where('user_id', $user->id)
             ->where('termek_id', $termekId)
             ->where('lejarat_datum', '>', now()) // Hozzáférési idő még nem járt le
             ->exists();
