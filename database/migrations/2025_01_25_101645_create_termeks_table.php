@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('ar');
             $table->string('jelzes');
            // $table->foreignId('cimke_id')->references('cimke_id')->on('cimkes');
-            $table->string('kep');
+            $table->longText('kep');
             $table->timestamps();
 
         });
@@ -36,7 +36,7 @@ return new class extends Migration
                 'ar' => 5000,
                 'jelzes' => 'új',
                 // 'cimke_id' => 1,
-                'kep' => 'https://drive.google.com/file/d/1I05NhuYtWWKvCpALFVAJPt5suHk4ELpU/view?usp=sharing',
+                'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
