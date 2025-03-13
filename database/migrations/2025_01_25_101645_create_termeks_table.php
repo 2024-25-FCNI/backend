@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('ar');
             $table->string('jelzes');
            // $table->foreignId('cimke_id')->references('cimke_id')->on('cimkes');
-            $table->string('kep');
+            $table->longText('kep');
             $table->timestamps();
 
         });
@@ -31,12 +31,12 @@ return new class extends Migration
             [
                 'cim' => 'Termék 1',
                 'leiras' => 'Ez az első termék.',
-                'url' => '/termek1',
+                'url' => 'https://drive.google.com/file/d/1LMqjnFgRrVg2-l3CtrejDaefkw9G7PVI/view?usp=drive_link',
                 'hozzaferesi_ido' => 30,
                 'ar' => 5000,
                 'jelzes' => 'új',
                 // 'cimke_id' => 1,
-                'kep' => '/images/termek1.jpg',
+                'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

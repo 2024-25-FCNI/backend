@@ -10,11 +10,26 @@ use App\Http\Controllers\KapcsoloController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
+
+
+
+Route::middleware('web')->group(function () {
+    Route::get('/sanctum/csrf-cookie', function (Request $request) {
+        return response()->json(['message' => 'CSRF cookie set']);
+    });
+});
+
+
+Route::post('/termekek', [TermekController::class, 'store']);
+
+Route::middleware('auth:sanctum')->get('/ellenoriz-vasarlas/{termekId}', [VasarlasFejController::class, 'ellenorizVasarlas']);
+
+
+Route::middleware('auth:sanctum')->post('/vasarlas', [VasarlasFejController::class, 'store']);
 
 
 Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword']);
@@ -67,6 +82,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/vasarlasok/fejek', [VasarlasFejController::class, 'getVasarlasFejWithUser']);
     Route::get('/vasarlasok/utolso', [VasarlasFejController::class, 'getUtolsoVasarlas']);
     Route::get('/vasarlasok/tetelek/osszeg', [VasarlasTetelController::class, 'getVasarlasTetelOsszeg']);
+
 });
 
 Route::post('/kapcsolo', [KapcsoloController::class, 'store']);
@@ -85,11 +101,10 @@ Route::post('/kapcsolok', [KapcsoloController::class, 'store']);  // Új kapcsol
 Route::delete('/kapcsolok/{termek_id}/{cimke_id}', [KapcsoloController::class, 'destroy']); // Kapcsolat törlése
 
 // 🌟 Termékek (termeks)
-Route::get('/termekek', [TermekController::class, 'index']);          // Minden termék lekérdezése
 Route::get('/termekek/{id}', [TermekController::class, 'show']);       // Egy termék lekérdezése
 Route::post('/termekek', [TermekController::class, 'store']);         // Új termék létrehozása
-Route::put('/termekek/{id}', [TermekController::class, 'update']);    // Termék módosítása
-Route::delete('/termekek/{id}', [TermekController::class, 'destroy']); // Termék törlése
+Route::delete('/termekek/{termek_id}', [TermekController::class, 'destroy']);
+
 
 // 🌟 Vásárlások Fejlécei (vasarlas_fejs)
 Route::get('/vasarlasok', [VasarlasFejController::class, 'index']);    // Minden vásárlás lekérdezése

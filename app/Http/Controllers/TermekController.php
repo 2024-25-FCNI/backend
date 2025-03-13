@@ -23,6 +23,7 @@ class TermekController extends Controller
         // Válasz JSON formátumban
         return response()->json($termekek);
     }
+
     public function show($id)
     {
         try {
@@ -42,20 +43,19 @@ class TermekController extends Controller
         }
     }
 
-
     // A legújabb 5 termék lekérdezése
     public function getLatestTermekek()
     {
         return Termek::orderBy('created_at', 'desc')->limit(5)->get();
     }
 
-    // Legdrágább termék lekérdezése 
+    // Legdrágább termék lekérdezése
     public function getLegdragabbTermek()
     {
         return Termek::orderBy('ar', 'desc')->first();
     }
 
-    // Adott címkéhez tartozó termékek lekérdezése 
+    // Adott címkéhez tartozó termékek lekérdezése
     public function getTermekekByCimke($cimkeId)
     {
         return Termek::where('cimke_id', $cimkeId)->get();
@@ -108,7 +108,13 @@ class TermekController extends Controller
 
     public function destroy($id)
     {
-        Termek::destroy($id);
-        return response()->json(null, 204);
+        $termek = Termek::find($id);
+        
+        if (!$termek) {
+            return response()->json(['error' => 'A termék nem található!'], 404);
+        }
+
+        $termek->delete();
+        return response()->json(['message' => 'A termék sikeresen törölve!']);
     }
 }
