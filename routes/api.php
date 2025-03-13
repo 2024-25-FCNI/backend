@@ -14,6 +14,8 @@ use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
+Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
+
 
 Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword']);

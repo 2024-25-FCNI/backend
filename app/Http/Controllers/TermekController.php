@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 class TermekController extends Controller
 {
+
+    
+
+
     /**
      * Termékek lekérdezése.
      */
@@ -56,21 +60,35 @@ class TermekController extends Controller
     {
         return Termek::where('cimke_id', $cimkeId)->get();
     }
+    
     public function store(Request $request)
-    {
+{
+    try {
+        // Validációs szabályok frissítése
         $validated = $request->validate([
             'cim' => 'required|string|max:255',
             'leiras' => 'nullable|string',
             'url' => 'required|string',
-            'hozzaferesi_ido' => 'integer',
-            'ar' => 'integer',
-            'jelzes' => 'string',
-            'kep' => 'string',
+            'hozzaferesi_ido' => 'required|integer',
+            'ar' => 'required|integer',
+            'jelzes' => 'nullable|string',
+            'kep' => 'nullable|image|max:2048', // 🔹 FÁJLT KÉRÜNK STRING HELYETT
         ]);
 
+        // 🔹 KÉP FELDOLGOZÁSA
+        if ($request->hasFile('kep')) {
+            $validated['kep'] = $request->file('kep')->store('images', 'public'); // Fájl mentése
+        }
+
+        // 🔹 Termék létrehozása
         $termek = Termek::create($validated);
+
         return response()->json($termek, 201);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json(['errors' => $e->errors()], 422);
     }
+}
+
 
     public function update(Request $request, $id)
     {
