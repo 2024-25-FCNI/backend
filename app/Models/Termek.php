@@ -9,8 +9,8 @@ class Termek extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'termek_id'; // Laravelnek megmondjuk, hogy ne az 'id'-t használja
-
+    protected $primaryKey = 'termek_id'; 
+    
     protected $fillable = [
         'cim',
         'leiras',

@@ -34,8 +34,8 @@ class VasarlasTetelController extends Controller
 
     public function getVasarlasAnalitika(Request $request)
     {
-        $kezdodatum = $request->input('kezdodatum'); // Pl.: 2024-01-01
-        $vegdatum = $request->input('vegdatum'); // Pl.: 2024-12-31
+        $kezdodatum = $request->input('kezdodatum');  
+        $vegdatum = $request->input('vegdatum'); 
 
         $query = DB::table('termeks')
             ->leftJoin('vasarlas_tetels', 'termeks.termek_id', '=', 'vasarlas_tetels.termek_id')

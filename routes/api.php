@@ -14,6 +14,8 @@ use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
+Route::post('/termekek', [TermekController::class, 'store']);
+
 
 Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword']);
@@ -65,7 +67,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/vasarlasok/fejek', [VasarlasFejController::class, 'getVasarlasFejWithUser']);
     Route::get('/vasarlasok/utolso', [VasarlasFejController::class, 'getUtolsoVasarlas']);
     Route::get('/vasarlasok/tetelek/osszeg', [VasarlasTetelController::class, 'getVasarlasTetelOsszeg']);
-
+    //Route::delete('/termekek/{termek_id}', [TermekController::class, 'destroy']);
 });
 
 Route::post('/kapcsolo', [KapcsoloController::class, 'store']);

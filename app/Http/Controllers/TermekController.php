@@ -56,21 +56,33 @@ class TermekController extends Controller
     {
         return Termek::where('cimke_id', $cimkeId)->get();
     }
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'cim' => 'required|string|max:255',
-            'leiras' => 'nullable|string',
-            'url' => 'required|string',
-            'hozzaferesi_ido' => 'integer',
-            'ar' => 'integer',
-            'jelzes' => 'string',
-            'kep' => 'string',
-        ]);
+    
 
-        $termek = Termek::create($validated);
-        return response()->json($termek, 201);
+    public function store(Request $request)
+{
+    // ✅ Validáció (kép is legyen kötelező)
+    $validated = $request->validate([
+        'cim' => 'required|string|max:255',
+        'leiras' => 'nullable|string',
+        'ar' => 'required|integer',
+        'hozzaferesi_ido' => 'integer',
+        'kep' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // ✅ Kép validálás
+    ]);
+
+    // ✅ Kép feltöltése
+    if ($request->hasFile('kep')) {
+        $file = $request->file('kep');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('kepek'), $filename);
+        $validated['kep'] = 'kepek/' . $filename;
     }
+
+    // ✅ Termék létrehozása
+    $termek = Termek::create($validated);
+    return response()->json($termek, 201);
+}
+
+    
 
     public function update(Request $request, $id)
     {

@@ -9,7 +9,8 @@ class CimkeController extends Controller
 {
     public function index()
     {
-        return response()->json(Cimke::all());
+        $cimkek = Cimke::pluck('elnevezes'); 
+        return response()->json($cimkek);
     }
 
     public function show($id)
