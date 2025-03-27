@@ -10,9 +10,11 @@ class VasarlasFej extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'osszeg',
         'datum'
     ];
+    
 
     public function vasarlasTetel()
     {

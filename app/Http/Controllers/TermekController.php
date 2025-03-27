@@ -72,15 +72,14 @@ class TermekController extends Controller
             'hozzaferesi_ido' => 'required|integer',
             'ar' => 'required|integer',
             'jelzes' => 'nullable|string',
-            'kep' => 'nullable|image|max:2048', // 🔹 FÁJLT KÉRÜNK STRING HELYETT
+            'kep' => 'nullable|image|max:2048', 
         ]);
 
-        // 🔹 KÉP FELDOLGOZÁSA
         if ($request->hasFile('kep')) {
             $validated['kep'] = $request->file('kep')->store('images', 'public'); // Fájl mentése
         }
+        
 
-        // 🔹 Termék létrehozása
         $termek = Termek::create($validated);
 
         return response()->json($termek, 201);
