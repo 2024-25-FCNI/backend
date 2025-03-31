@@ -90,6 +90,13 @@ class TermekController extends Controller
     }
 
 
+    // ✅ Termék létrehozása
+    $termek = Termek::create($validated);
+    return response()->json($termek, 201);
+}
+
+    
+
     public function update(Request $request, $id)
     {
         $termek = Termek::findOrFail($id);
