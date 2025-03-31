@@ -62,37 +62,30 @@ class TermekController extends Controller
     }
 
     public function store(Request $request)
-    {
-        try {
-            // Validációs szabályok frissítése
-            $validated = $request->validate([
-                'cim' => 'required|string|max:255',
-                'bemutatas' => 'nullable|string',
-                'leiras' => 'nullable|string',
-                'url' => 'required|string',
-                'hozzaferesi_ido' => 'required|integer',
-                'ar' => 'required|integer',
-                'jelzes' => 'nullable|string',
-                'kep' => 'nullable|image|max:2048',
-            ]);
+{
+    try {
+        // Validációs szabályok frissítése
+        $validated = $request->validate([
+            'cim' => 'required|string|max:255',
+            'bemutatas' => 'nullable|string',
+            'leiras' => 'nullable|string',
+            'url' => 'required|string',
+            'hozzaferesi_ido' => 'required|integer',
+            'ar' => 'required|integer',
+            'jelzes' => 'nullable|string',
+            'kep' => 'nullable|image|max:2048',
+        ]);
 
-            if ($request->hasFile('kep')) {
-                $validated['kep'] = $request->file('kep')->store('images', 'public'); // Fájl mentése
-            }
-
-
-            $termek = Termek::create($validated);
-
-            return response()->json($termek, 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+        if ($request->hasFile('kep')) {
+            $validated['kep'] = $request->file('kep')->store('images', 'public'); // Fájl mentése
         }
+
+        $termek = Termek::create($validated);
+
+        return response()->json($termek, 201);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json(['errors' => $e->errors()], 422);
     }
-
-
-    // ✅ Termék létrehozása
-    $termek = Termek::create($validated);
-    return response()->json($termek, 201);
 }
 
     
