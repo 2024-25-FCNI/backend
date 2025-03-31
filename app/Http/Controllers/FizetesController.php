@@ -36,7 +36,7 @@ class FizetesController extends Controller
             return response()->json(['message' => 'E-mail sikeresen elküldve!']);
         } catch (\Exception $e) {
             Log::channel('single')->error("E-mail küldési hiba: " . $e->getMessage());
-            return response()->json(['message' => 'Nem sikerült elküldeni az e-mailt.'], 500);
+            return response()->json(['message' =>$mailData], 500);
         }
     }
 }

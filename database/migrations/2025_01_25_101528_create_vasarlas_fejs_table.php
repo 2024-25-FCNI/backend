@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('vasarlas_fejs', function (Blueprint $table) {
             $table->id('vasarlas_id');
-            $table->foreignId('id')->references('id')->on('users');
+            //$table->foreignId('id')->references('id')->on('users');
+            $table->foreignId('user_id')->constrained('users'); // <- EZ A HELYES
             $table->integer('osszeg');
             $table->date('datum');
             $table->timestamps();

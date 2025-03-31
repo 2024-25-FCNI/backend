@@ -10,9 +10,28 @@ use App\Http\Controllers\KapcsoloController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+
+Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
+
+
+
+Route::middleware('web')->group(function () {
+    Route::get('/sanctum/csrf-cookie', function (Request $request) {
+        return response()->json(['message' => 'CSRF cookie set']);
+    });
+});
+
+
+Route::post('/termekek', [TermekController::class, 'store']);
+
+Route::middleware('auth:sanctum')->get('/ellenoriz-vasarlas/{termekId}', [VasarlasFejController::class, 'ellenorizVasarlas']);
+
+
+Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
+    ->post('/vasarlas', [VasarlasFejController::class, 'store']);
 
 Route::post('/termekek', [TermekController::class, 'store']);
 

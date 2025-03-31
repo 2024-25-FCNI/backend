@@ -7,11 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class VasarlasFej extends Model
 {
-    /** @use HasFactory<\Database\Factories\VasarlasFejFactory> */
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'osszeg',
         'datum'
     ];
+    
+
+    public function vasarlasTetel()
+    {
+        return $this->hasMany(VasarlasTetel::class, 'vasarlas_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

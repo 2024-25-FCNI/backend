@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,8 +8,8 @@ class Termek extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'termek_id'; 
-    
+    protected $primaryKey = 'termek_id';
+
     protected $fillable = [
         'cim',
         'leiras',
@@ -20,5 +19,9 @@ class Termek extends Model
         'jelzes',
         'kep'
     ];
-}
 
+    public function vasarlasok()
+    {
+        return $this->hasMany(VasarlasTetel::class, 'termek_id');
+    }
+}

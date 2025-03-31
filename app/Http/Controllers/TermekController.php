@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 class TermekController extends Controller
 {
+
+    
+
+
     /**
      * Termékek lekérdezése.
      */
@@ -19,6 +23,7 @@ class TermekController extends Controller
         // Válasz JSON formátumban
         return response()->json($termekek);
     }
+
     public function show($id)
     {
         try {
@@ -38,44 +43,51 @@ class TermekController extends Controller
         }
     }
 
-
     // A legújabb 5 termék lekérdezése
     public function getLatestTermekek()
     {
         return Termek::orderBy('created_at', 'desc')->limit(5)->get();
     }
 
-    // Legdrágább termék lekérdezése 
+    // Legdrágább termék lekérdezése
     public function getLegdragabbTermek()
     {
         return Termek::orderBy('ar', 'desc')->first();
     }
 
-    // Adott címkéhez tartozó termékek lekérdezése 
+    // Adott címkéhez tartozó termékek lekérdezése
     public function getTermekekByCimke($cimkeId)
     {
         return Termek::where('cimke_id', $cimkeId)->get();
     }
     
-
     public function store(Request $request)
 {
-    // ✅ Validáció (kép is legyen kötelező)
-    $validated = $request->validate([
-        'cim' => 'required|string|max:255',
-        'leiras' => 'nullable|string',
-        'ar' => 'required|integer',
-        'hozzaferesi_ido' => 'integer',
-        'kep' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // ✅ Kép validálás
-    ]);
+    try {
+        // Validációs szabályok frissítése
+        $validated = $request->validate([
+            'cim' => 'required|string|max:255',
+            'leiras' => 'nullable|string',
+            'url' => 'required|string',
+            'hozzaferesi_ido' => 'required|integer',
+            'ar' => 'required|integer',
+            'jelzes' => 'nullable|string',
+            'kep' => 'nullable|image|max:2048', 
+        ]);
 
-    // ✅ Kép feltöltése
-    if ($request->hasFile('kep')) {
-        $file = $request->file('kep');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('kepek'), $filename);
-        $validated['kep'] = 'kepek/' . $filename;
+        if ($request->hasFile('kep')) {
+            $validated['kep'] = $request->file('kep')->store('images', 'public'); // Fájl mentése
+        }
+        
+
+        $termek = Termek::create($validated);
+
+        return response()->json($termek, 201);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json(['errors' => $e->errors()], 422);
     }
+}
+
 
     // ✅ Termék létrehozása
     $termek = Termek::create($validated);
@@ -101,9 +113,14 @@ class TermekController extends Controller
     }
 
     public function destroy($id)
-{
-    Termek::find($id)->delete(); 
-    
-}
+    {
+        $termek = Termek::find($id);
+        
+        if (!$termek) {
+            return response()->json(['error' => 'A termék nem található!'], 404);
+        }
 
+        $termek->delete();
+        return response()->json(['message' => 'A termék sikeresen törölve!']);
+    }
 }
