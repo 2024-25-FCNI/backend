@@ -24,7 +24,7 @@ return $app->configure(basePath: dirname(__DIR__))
    
    
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->statefulApi(); // 🔴 Laravel Sanctum API támogatásához szükséges!
+        $middleware->statefulApi(); 
    
         $middleware->api(prepend: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
