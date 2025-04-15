@@ -12,6 +12,7 @@ class Termek extends Model
 
     protected $fillable = [
         'cim',
+        'bemutatas',
         'leiras',
         'url',
         'hozzaferesi_ido',

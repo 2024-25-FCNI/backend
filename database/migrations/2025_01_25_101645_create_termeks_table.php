@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('termeks', function (Blueprint $table) {
             $table->id('termek_id');
             $table->string('cim');
+            $table->string('bemutatas');
             $table->string('leiras');
             $table->string('url');
             $table->integer('hozzaferesi_ido');
@@ -30,6 +31,7 @@ return new class extends Migration
         Termek::insert([
             [
                 'cim' => 'Termék 1',
+                'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez az első termék.',
                 'url' => 'https://drive.google.com/file/d/1LMqjnFgRrVg2-l3CtrejDaefkw9G7PVI/view?usp=drive_link',
                 'hozzaferesi_ido' => 30,
@@ -42,6 +44,7 @@ return new class extends Migration
             ],
             [
                 'cim' => 'Termék 2',
+                'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a második termék.',
                 'url' => '/termek2',
                 'hozzaferesi_ido' => 60,
@@ -54,6 +57,7 @@ return new class extends Migration
             ],
             [
                 'cim' => 'Termék 3',
+                'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a harmadik termék.',
                 'url' => '/termek3',
                 'hozzaferesi_ido' => 90,
@@ -66,6 +70,7 @@ return new class extends Migration
             ],
             [
                 'cim' => 'Termék 4',
+                'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a negyedik termék.',
                 'url' => '/termek4',
                 'hozzaferesi_ido' => 120,
@@ -78,6 +83,7 @@ return new class extends Migration
             ],
             [
                 'cim' => 'Termék 5',
+                'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez az ötödik termék.',
                 'url' => '/termek5',
                 'hozzaferesi_ido' => 180,
@@ -90,6 +96,7 @@ return new class extends Migration
             ],
             [
                 'cim' => 'Termék 6',
+                'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a hatodik termék.',
                 'url' => '/termek6',
                 'hozzaferesi_ido' => 240,

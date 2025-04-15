@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Log;
  
 class TermekController extends Controller
 {
+
+
+
+
     /**
      * Termékek lekérdezése.
      */
@@ -56,13 +60,14 @@ class TermekController extends Controller
     {
         return Termek::where('cimke_id', $cimkeId)->get();
     }
-   
+
     public function store(Request $request)
 {
     try {
         // Validációs szabályok frissítése
         $validated = $request->validate([
             'cim' => 'required|string|max:255',
+            'bemutatas' => 'nullable|string',
             'leiras' => 'nullable|string',
             'url' => 'required|string',
             'hozzaferesi_ido' => 'required|integer',
@@ -74,8 +79,7 @@ class TermekController extends Controller
         if ($request->hasFile('kep')) {
             $validated['kep'] = $request->file('kep')->store('images', 'public'); // Fájl mentése
         }
-       
- 
+
         $termek = Termek::create($validated);
  
         return response()->json($termek, 201);
@@ -83,13 +87,15 @@ class TermekController extends Controller
         return response()->json(['errors' => $e->errors()], 422);
     }
 }
- 
- 
+
+    
+
     public function update(Request $request, $id)
     {
         $termek = Termek::findOrFail($id);
         $validated = $request->validate([
             'cim' => 'required|string|max:255',
+            'bemutatas' => 'nullable|string',
             'leiras' => 'nullable|string',
             'url' => 'required|string',
             'hozzaferesi_ido' => 'integer',
@@ -100,16 +106,19 @@ class TermekController extends Controller
         $termek->update($validated);
         return response()->json($termek);
     }
- 
-    public function destroy($id)
-    {
-        $termek = Termek::find($id);
-       
-        if (!$termek) {
-            return response()->json(['error' => 'A termék nem található!'], 404);
-        }
- 
-        $termek->delete();
-        return response()->json(['message' => 'A termék sikeresen törölve!']);
+
+    public function destroy($termek_id)
+{
+    $termek = Termek::where('termek_id', $termek_id)->first();
+
+    if (!$termek) {
+        return response()->json(['error' => 'A termék nem található!'], 404);
     }
+
+    $termek->delete();
+
+    return response()->json(['message' => 'A termék sikeresen törölve!']);
+}
+
+    
 }

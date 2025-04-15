@@ -25,7 +25,7 @@ Route::middleware('web')->group(function () {
 });
 
 
-Route::post('/termekek', [TermekController::class, 'store']);
+
 
 Route::middleware('auth:sanctum')->get('/ellenoriz-vasarlas/{termekId}', [VasarlasFejController::class, 'ellenorizVasarlas']);
 
