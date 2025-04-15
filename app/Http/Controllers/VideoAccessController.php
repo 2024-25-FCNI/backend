@@ -67,7 +67,13 @@ class VideoAccessController extends Controller
     }
     
     private function extractYouTubeId($url) {
-        preg_match('/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/v\/|.*embed\/|.*watch\?.*v=))([^"&?\/\s]{11})/', $url, $matches);
-        return $matches[1] ?? null;
+        if (Str::contains($url, 'youtube.com') || Str::contains($url, 'youtu.be')) {
+            preg_match('/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/v\/|.*embed\/|.*watch\?.*v=))([^"&?\/\s]{11})/', $url, $matches);
+            return $matches[1] ?? null;
+        } elseif (Str::contains($url, 'drive.google.com')) {
+            preg_match('/[-\w]{25,}/', $url, $matches);
+            return $matches[0] ?? null;
+        }
+        return null;        
     }
 }

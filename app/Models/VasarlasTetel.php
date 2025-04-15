@@ -12,7 +12,6 @@ class VasarlasTetel extends Model
     protected $fillable = [
         'vasarlas_id',
         'termek_id',
-        'lejarat_datum'
     ];
 
     public function vasarlas()
