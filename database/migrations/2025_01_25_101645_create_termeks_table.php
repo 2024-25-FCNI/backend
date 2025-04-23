@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('cim');
             $table->string('bemutatas');
             $table->string('leiras');
-            $table->string('video')->nullable();
+            //$table->string('video')->nullable();
+            //$table->string('url');
+            $table->string('url');
             $table->integer('hozzaferesi_ido');
             $table->integer('ar');
             $table->string('jelzes');
@@ -33,7 +35,7 @@ return new class extends Migration
                 'cim' => 'Termék 1',
                 'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez az első termék.',
-                'video' => 'https://drive.google.com/file/d/1LMqjnFgRrVg2-l3CtrejDaefkw9G7PVI/view?usp=drive_link',
+                'url' => 'https://drive.google.com/file/d/1LMqjnFgRrVg2-l3CtrejDaefkw9G7PVI/view?usp=drive_link',
                 'hozzaferesi_ido' => 30,
                 'ar' => 5000,
                 'jelzes' => 'új',
@@ -46,7 +48,7 @@ return new class extends Migration
                 'cim' => 'Termék 2',
                 'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a második termék.',
-                'video' => '/termek2',
+                'url' => '/termek2',
                 'hozzaferesi_ido' => 60,
                 'ar' => 8000,
                 'jelzes' => 'akciós',
@@ -59,7 +61,7 @@ return new class extends Migration
                 'cim' => 'Termék 3',
                 'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a harmadik termék.',
-                'video' => '/termek3',
+                'url' => '/termek3',
                 'hozzaferesi_ido' => 90,
                 'ar' => 10000,
                 'jelzes' => 'top',
@@ -72,7 +74,7 @@ return new class extends Migration
                 'cim' => 'Termék 4',
                 'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a negyedik termék.',
-                'video' => '/termek4',
+                'url' => '/termek4',
                 'hozzaferesi_ido' => 120,
                 'ar' => 15000,
                 'jelzes' => 'új',
@@ -85,7 +87,7 @@ return new class extends Migration
                 'cim' => 'Termék 5',
                 'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez az ötödik termék.',
-                'video' => '/termek5',
+                'url' => '/termek5',
                 'hozzaferesi_ido' => 180,
                 'ar' => 20000,
                 'jelzes' => 'akciós',
@@ -98,7 +100,7 @@ return new class extends Migration
                 'cim' => 'Termék 6',
                 'bemutatas' => 'Ez az első termék.',
                 'leiras' => 'Ez a hatodik termék.',
-                'video' => '/termek6',
+                'url' => '/termek6',
                 'hozzaferesi_ido' => 240,
                 'ar' => 25000,
                 'jelzes' => 'top',
