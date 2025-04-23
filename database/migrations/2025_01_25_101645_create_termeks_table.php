@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('cim');
             $table->string('bemutatas');
             $table->string('leiras');
-            //$table->string('video')->nullable();
-            //$table->string('url');
             $table->string('url');
             $table->integer('hozzaferesi_ido');
             $table->integer('ar');
