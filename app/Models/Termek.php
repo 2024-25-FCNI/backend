@@ -14,7 +14,7 @@ class Termek extends Model
         'cim',
         'bemutatas',
         'leiras',
-        'url',
+        'video',
         'hozzaferesi_ido',
         'ar',
         'jelzes',
