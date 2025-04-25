@@ -40,6 +40,8 @@ class DemoMail extends Mailable
             'total' => $mailData['total'],
             'kosar' => $mailData['kosar'],
         ];
+
+        
     }
 
     /**

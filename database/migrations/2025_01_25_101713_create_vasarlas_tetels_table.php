@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\VasarlasTetel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-
+       /*  VasarlasTetel::create([
+            'vasarlas_id' => 1, // ha tudod, hogy ez lesz az ID
+            'termek_id' => 13,
+        ]); */
 
 
         // Ez a trigger automatikusan frissíti a vásárlási fej összegét, amikor egy új vásárlási tételt adnak hozzá.

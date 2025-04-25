@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use App\Mail\DemoMail; // 🔥 Ezt importáljuk!
+use App\Mail\DemoMail; 
 
 class FizetesController extends Controller
 {
@@ -27,8 +27,8 @@ class FizetesController extends Controller
         $mailData = [
             'title' => 'Fizetési visszaigazolás',
             'body' => "Köszönjük a vásárlást, {$user->name}!\nÖsszeg: {$total} Ft",
-            'kosar' => $kosar, 
-            'name' => $user->name, 
+            'kosar' => $kosar,
+            'name' => $user->name,
             'total' => $total,
         ];
 

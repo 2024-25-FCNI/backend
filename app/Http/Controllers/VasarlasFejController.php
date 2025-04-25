@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class VasarlasFejController extends Controller
 {
-    public function ellenorizVasarlas($termekId)
+    /* public function ellenorizVasarlas($termekId)
     {
         $user = Auth::user();
 
@@ -24,7 +24,7 @@ class VasarlasFejController extends Controller
             ->exists();
 
         return response()->json(['megvette' => $vasarolt]);
-    }
+    } */
 
     public function index()
     {
@@ -37,52 +37,52 @@ class VasarlasFejController extends Controller
     }
 
     public function store(Request $request)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    if (!$user) {
-        return response()->json(['error' => 'Nem vagy bejelentkezve.'], 401);
-    }
-
-    DB::beginTransaction();
-
-    try {
-        // 🔹 Vásárlás fejléc (vasarlas_fejs) létrehozása
-        $vasarlas = VasarlasFej::create([
-            'user_id' => $user->id,
-            'osszeg' => $request->input('vasarlas.osszeg'),
-            'datum' => $request->input('vasarlas.datum'),
-        ]);
-
-        // 🔹 Vásárlási tételek (vasarlas_tetels)
-        $tetelek = $request->input('tetelek', []);
-
-        foreach ($tetelek as $tetel) {
-            $existing = VasarlasTetel::where('termek_id', $tetel['termek_id'])
-                ->whereHas('vasarlas', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if ($existing) {
-                continue;
-            }
-
-            VasarlasTetel::create([
-                'vasarlas_id' => $vasarlas->id,
-                'termek_id' => $tetel['termek_id'],
-            ]);
+        if (!$user) {
+            return response()->json(['error' => 'Nem vagy bejelentkezve.'], 401);
         }
 
-        DB::commit();
+        DB::beginTransaction();
 
-        return response()->json(['message' => 'Sikeres vásárlás!'], 201);
-    } catch (\Exception $e) {
-        DB::rollBack();
-        Log::error('Vásárlás mentés hiba: ' . $e->getMessage());
-        return response()->json(['error' => 'Hiba a vásárlás mentésekor.'], 500);
+        try {
+            // 🔹 Vásárlás fejléc (vasarlas_fejs) létrehozása
+            $vasarlas = VasarlasFej::create([
+                'user_id' => $user->id,
+                'osszeg' => $request->input('vasarlas.osszeg'),
+                'datum' => $request->input('vasarlas.datum'),
+            ]);
+
+            // 🔹 Vásárlási tételek (vasarlas_tetels)
+            $tetelek = $request->input('tetelek', []);
+
+            foreach ($tetelek as $tetel) {
+                $existing = VasarlasTetel::where('termek_id', $tetel['termek_id'])
+                    ->whereHas('vasarlas', function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    })
+                    ->exists();
+
+                if ($existing) {
+                    continue;
+                }
+
+                VasarlasTetel::create([
+                    'vasarlas_id' => $vasarlas->id,
+                    'termek_id' => $tetel['termek_id'],
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json(['message' => 'Sikeres vásárlás!'], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Vásárlás mentés hiba: ' . $e->getMessage());
+            return response()->json(['error' => 'Hiba a vásárlás mentésekor.'], 500);
+        }
     }
-}
 
 
 
@@ -126,5 +126,16 @@ class VasarlasFejController extends Controller
     public function getUtolsoVasarlas()
     {
         return VasarlasFej::orderBy('created_at', 'desc')->first();
+    }
+
+    public function ellenorizVasarlas($termekId)
+    {
+        $user = Auth::user();
+
+        $megvette = VasarlasTetel::whereHas('vasarlas', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->where('termek_id', $termekId)->exists();
+
+        return response()->json(['megvette' => $megvette]);
     }
 }

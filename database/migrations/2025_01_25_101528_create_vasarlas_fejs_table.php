@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\VasarlasFej;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
+
+       /*  VasarlasFej::create([
+            'user_id' => 3,
+            'osszeg' => 10,
+            'datum' => now()->toDateString(),
+        ]); */
 
         /*
         //Ez a constraint biztosítja, hogy egy vásárlás mindig egy létező user-hez legyen kötve.

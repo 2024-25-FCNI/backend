@@ -16,11 +16,13 @@ class VasarlasTetel extends Model
 
     public function vasarlas()
     {
-        return $this->belongsTo(VasarlasFej::class, 'vasarlas_id');
+        return $this->belongsTo(VasarlasFej::class, 'vasarlas_id'); //, 'vasarlas_id'
     }
 
     public function termek()
     {
         return $this->belongsTo(Termek::class, 'termek_id');
     }
+
+   
 }
