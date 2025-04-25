@@ -32,9 +32,13 @@ class DemoMail extends Mailable
         $name = $mailData['name'] ?? (Auth::check() ? Auth::user()->name : 'Vásárló');
 
         $this->mailData = [
-            'name' => $name,
+           /*  'name' => $name,
             'total' => $total,
-            'kosar' => $mailData['kosar'] ?? [],
+            'kosar' => $mailData['kosar'] ?? [], */
+
+            'name' => $mailData['name'],
+            'total' => $mailData['total'],
+            'kosar' => $mailData['kosar'],
         ];
     }
 

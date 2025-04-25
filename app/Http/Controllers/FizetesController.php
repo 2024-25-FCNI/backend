@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -27,7 +27,9 @@ class FizetesController extends Controller
         $mailData = [
             'title' => 'Fizetési visszaigazolás',
             'body' => "Köszönjük a vásárlást, {$user->name}!\nÖsszeg: {$total} Ft",
-            'kosar' => $kosar // Ha a kosár tartalmát is be akarod tenni az emailbe
+            'kosar' => $kosar, 
+            'name' => $user->name, 
+            'total' => $total,
         ];
 
         // E-mail küldés
@@ -36,7 +38,7 @@ class FizetesController extends Controller
             return response()->json(['message' => 'E-mail sikeresen elküldve!']);
         } catch (\Exception $e) {
             Log::channel('single')->error("E-mail küldési hiba: " . $e->getMessage());
-            return response()->json(['message' =>$mailData], 500);
+            return response()->json(['message' => $mailData], 500);
         }
     }
 }
