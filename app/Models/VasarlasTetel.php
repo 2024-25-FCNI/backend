@@ -9,6 +9,11 @@ class VasarlasTetel extends Model
 {
     use HasFactory;
 
+    protected $table = 'vasarlas_tetels';
+    protected $primaryKey = 'tetel_id';
+
+    
+
     protected $fillable = [
         'vasarlas_id',
         'termek_id',
@@ -23,6 +28,5 @@ class VasarlasTetel extends Model
     {
         return $this->belongsTo(Termek::class, 'termek_id');
     }
-
-   
+ 
 }

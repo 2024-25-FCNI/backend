@@ -38,6 +38,13 @@ class VasarlasFejController extends Controller
 
     public function store(Request $request)
     {
+
+        Log::debug('Vasarlas store kérés:', [
+            'user' => Auth::user(),
+            'input' => $request->all()
+        ]);
+        
+
         $user = Auth::user();
 
         if (!$user) {
@@ -69,7 +76,8 @@ class VasarlasFejController extends Controller
                 }
 
                 VasarlasTetel::create([
-                    'vasarlas_id' => $vasarlas->id,
+                    'vasarlas_id' => $vasarlas->vasarlas_id,
+
                     'termek_id' => $tetel['termek_id'],
                 ]);
             }

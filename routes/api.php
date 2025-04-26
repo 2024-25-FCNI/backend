@@ -30,8 +30,6 @@ Route::middleware('web')->group(function () {
 Route::middleware('auth:sanctum')->get('/ellenoriz-vasarlas/{termekId}', [VasarlasFejController::class, 'ellenorizVasarlas']);
 
 
-Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
-    ->post('/vasarlas', [VasarlasFejController::class, 'store']);
 
 Route::post('/termekek', [TermekController::class, 'store']);
 
@@ -40,8 +38,19 @@ Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotP
 Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword']);
 
 
+Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
+    ->post('/vasarlas', [VasarlasFejController::class, 'store']);
 
-Route::get('/send-mail', [MailController::class, 'sendTestMail']);
+
+Route::middleware(['auth:sanctum'])->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+//Route::get('/send-mail', [MailController::class, 'sendTestMail']);
+ 
+//Route::get('send_mail', [MailController::class, 'index']);
+/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+ */
+/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']); 
+//middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']-> */
+
 
 
 Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
@@ -51,11 +60,8 @@ Route::get('/vasarlasok-analitika-idolepes', [VasarlasTetelController::class, 'g
 
 Route::get('/felhasznalok', [UserController::class, 'index']);
 
-/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
- */
-/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']); 
-//middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']-> */
-Route::middleware(['auth:sanctum'])->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
+
+
 
 
 Route::get('/termekek', [TermekController::class, 'index']);
@@ -91,7 +97,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
 Route::post('/kapcsolo', [KapcsoloController::class, 'store']);
 
-
+//ALAPFUGGVENYEK
 // 🌟 Címkék (cimkes)
 Route::get('/cimkek', [CimkeController::class, 'index']);          // Minden címke lekérdezése
 Route::get('/cimkek/{id}', [CimkeController::class, 'show']);       // Egy címke lekérdezése

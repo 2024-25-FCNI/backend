@@ -9,6 +9,11 @@ class VasarlasFej extends Model
 {
     use HasFactory;
 
+    protected $table = 'vasarlas_fejs'; 
+    protected $primaryKey = 'vasarlas_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'user_id',
         'osszeg',
@@ -16,7 +21,7 @@ class VasarlasFej extends Model
     ];
     
 
-    public function vasarlasTetel()
+     public function vasarlasTetel()
     {
         return $this->hasMany(VasarlasTetel::class, 'vasarlas_id');
     }
@@ -24,5 +29,5 @@ class VasarlasFej extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
+    } 
 }

@@ -8,7 +8,7 @@
 <body>
     <h1>Fizetési visszaigazolás</h1>
 
-    <p>Köszönjük a vásárlását, {{ $mailData['name'] }}!</p> <!-- 🔥 A felhasználó neve bekerül -->
+    <p>Köszönjük a vásárlását, {{ $mailData['name'] }}!</p> 
     
     <h3>Rendelési adatok:</h3>
     <ul>
@@ -17,6 +17,6 @@
         @endforeach
     </ul>
 
-    <p><strong>Összesen:</strong> {{ number_format($mailData['total'], 0, ',', ' ') }} Ft</p> <!-- 🔥 Az összesített fizetendő összeg -->
+    <p><strong>Összesen:</strong> {{ number_format($mailData['total'], 0, ',', ' ') }} Ft</p> 
 </body>
 </html>

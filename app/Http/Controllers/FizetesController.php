@@ -34,7 +34,7 @@ class FizetesController extends Controller
 
         // E-mail küldés
         try {
-            Mail::to($user->email)->send(new DemoMail($mailData)); // 🔥 Most már `DemoMail`-t hívunk!
+            Mail::to($user->email)->send(new DemoMail($mailData)); 
             return response()->json(['message' => 'E-mail sikeresen elküldve!']);
         } catch (\Exception $e) {
             Log::channel('single')->error("E-mail küldési hiba: " . $e->getMessage());
