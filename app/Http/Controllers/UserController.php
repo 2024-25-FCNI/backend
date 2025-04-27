@@ -4,13 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
-{   
+{
+    public function index()
+    {
+        try {
+            $users = User::all();
+            return response()->json($users);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Hiba történt a felhasználók lekérésekor'], 500);
+        }
+    }
 
-   /*  public function uploadProfilkep(Request $request)
+
+
+public function destroy($id)
+{
+    User::find($id)->delete();
+}
+
+
+}
+
+
+
+/*  public function uploadProfilkep(Request $request)
     {
         $user = Auth::user();
 
@@ -33,25 +53,3 @@ class UserController extends Controller
 
         return response()->json(['error' => 'Nem küldtél fájlt.'], 400);
     } */
-
-
-    public function index()
-    {
-        try {
-            $users = User::all();
-            return response()->json($users);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Hiba történt a felhasználók lekérésekor'], 500);
-        }
-    }
-
-
-
-public function destroy($id)
-{
-    User::find($id)->delete();
-}
-
-
-}
-

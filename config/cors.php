@@ -12,8 +12,9 @@
     
 ]; */
 
+
 return [
-    'paths' => ['api/*', 'login', 'logout', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'login', 'logout', 'register', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['http://localhost:3000'],
     'allowed_origins_patterns' => [],
@@ -21,8 +22,6 @@ return [
     'exposed_headers' => [],
     'max_age' => 0,
     'supports_credentials' => true,
-
-
 ];
 
 

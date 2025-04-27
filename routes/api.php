@@ -11,12 +11,23 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;    
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
+/* Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+ */
 
-Route::middleware(['auth:sanctum'])->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+}); 
+ 
+
+//Route::middleware(['auth:sanctum'])->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
 
 
 Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
@@ -74,9 +85,7 @@ Route::get('/termekek/{id}', [TermekController::class, 'show']);
 
 Route::delete('/felhasznalok/{id}', [UserController::class, 'destroy']);
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 // Publikus végpontok
 Route::get('/termekek/legujabb', [TermekController::class, 'getLatestTermekek']);
