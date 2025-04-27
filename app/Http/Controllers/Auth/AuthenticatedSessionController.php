@@ -80,10 +80,11 @@ class AuthenticatedSessionController extends Controller
             return response()->json(['message' => 'Felhasználó nem található.'], 404);
         }
 
-        // **Token ellenőrzése itt szükséges lenne** (ha adatbázisba mented)
+        // Jelszó frissítése
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
 
-        $user->update(['password' => Hash::make($request->password)]);
-
-        return response()->json(['message' => 'Jelszó sikeresen visszaállítva!']);
+        return response()->json(['message' => 'Sikeres jelszócsere! Most jelentkezz be.'], 200);
     }
 }
