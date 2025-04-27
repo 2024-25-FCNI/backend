@@ -12,7 +12,12 @@ use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;    
+
+
+
+Route::middleware(['auth:sanctum'])->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
+
 
 Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
 

@@ -58,7 +58,7 @@ class VasarlasFejController extends Controller
             $vasarlas = VasarlasFej::create([
                 'user_id' => $user->id,
                 'osszeg' => $request->input('vasarlas.osszeg'),
-                'datum' => $request->input('vasarlas.datum'),
+                'datum' => $request->input('vasarlas.datum'),    
             ]);
 
             // 🔹 Vásárlási tételek (vasarlas_tetels)
@@ -76,7 +76,7 @@ class VasarlasFejController extends Controller
                 }
 
                 VasarlasTetel::create([
-                    'vasarlas_id' => $vasarlas->vasarlas_id,
+                    'vasarlas_id' => $vasarlas->vasarlas_id,  
 
                     'termek_id' => $tetel['termek_id'],
                 ]);

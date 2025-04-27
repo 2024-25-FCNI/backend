@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Http\Response as HttpResponse;   
 use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends Controller

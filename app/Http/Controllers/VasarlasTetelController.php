@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
  
 class VasarlasTetelController extends Controller
-{
+{    
     public function index()
     {
         return response()->json(VasarlasTetel::all());

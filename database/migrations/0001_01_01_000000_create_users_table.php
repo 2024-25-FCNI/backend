@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+    /**   
      * Run the migrations.
      */
     public function up(): void
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('role')->default(1);
             $table->rememberToken();
             $table->timestamps();
+            //$table->string('profilkep')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
