@@ -43,7 +43,7 @@ class VasarlasFejController extends Controller
             'user' => Auth::user(),
             'input' => $request->all()
         ]);
-        
+
 
         $user = Auth::user();
 
@@ -58,7 +58,7 @@ class VasarlasFejController extends Controller
             $vasarlas = VasarlasFej::create([
                 'user_id' => $user->id,
                 'osszeg' => $request->input('vasarlas.osszeg'),
-                'datum' => $request->input('vasarlas.datum'),    
+                'datum' => $request->input('vasarlas.datum'),
             ]);
 
             // 🔹 Vásárlási tételek (vasarlas_tetels)
@@ -76,7 +76,7 @@ class VasarlasFejController extends Controller
                 }
 
                 VasarlasTetel::create([
-                    'vasarlas_id' => $vasarlas->vasarlas_id,  
+                    'vasarlas_id' => $vasarlas->vasarlas_id,
 
                     'termek_id' => $tetel['termek_id'],
                 ]);
@@ -138,12 +138,42 @@ class VasarlasFejController extends Controller
 
     public function ellenorizVasarlas($termekId)
     {
+        
         $user = Auth::user();
 
+        // Admin mindig hozzáfér
+        if ($user->role === 0) {
+            return response()->json(['megvette' => true]);
+        }
+    
+        // Normál user: vásárlás ellenőrzés a kapcsolaton keresztül
         $megvette = VasarlasTetel::whereHas('vasarlas', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->where('termek_id', $termekId)->exists();
-
+    
         return response()->json(['megvette' => $megvette]);
-    }
+
+    } 
+
+    /* public function ellenorizVasarlas($termekId)
+    {
+        $user = Auth::user();
+
+        if ($user->role === 0) {
+            return response()->json(['megvette' => true]);
+        }
+
+        $vasarolt = VasarlasTetel::with(['vasarlas', 'termek'])
+            ->whereHas('vasarlas', fn($q) => $q->where('user_id', $user->id))
+            ->where('termek_id', $termekId)
+            ->get()
+            ->filter(function ($tetel) {
+                $vasarlasDatum = \Carbon\Carbon::parse($tetel->vasarlas->datum);
+                $ido = $tetel->termek->hozzaferesi_ido ?? 0;
+                return $vasarlasDatum->copy()->addDays($ido)->greaterThanOrEqualTo(now());
+            })
+            ->isNotEmpty();
+
+        return response()->json(['megvette' => $vasarolt]);
+    } */
 }

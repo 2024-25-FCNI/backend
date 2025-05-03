@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
 use App\Models\Termek;
+use App\Models\VasarlasTetel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
  
 class TermekController extends Controller
@@ -12,17 +14,38 @@ class TermekController extends Controller
 
 
 
-    /**
-     * Termékek lekérdezése.
-     */
+    //Termékek lekérdezése.
+
     public function index()
+    {
+        $user = Auth::user();
+    
+        $termekek = Termek::all()->map(function ($termek) use ($user) {
+            $termek->vasarolt = false;
+    
+            if ($user && $user->role !== 0) {
+                $termek->vasarolt = VasarlasTetel::where('termek_id', $termek->termek_id)
+                    ->whereHas('vasarlas', function ($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })
+                   // ->where('lejarat_datum', '>', now())
+                    ->exists();
+            }
+    
+            return $termek;
+        });
+    
+        return response()->json($termekek);
+    }
+    
+    /* public function index()
     {
         // Minden termék lekérdezése az adatbázisból
         $termekek = Termek::all();
  
         // Válasz JSON formátumban
         return response()->json($termekek);
-    }
+    } */
  
     public function show($id)
     {
