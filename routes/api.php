@@ -17,17 +17,17 @@ use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
-/* Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
- */
+
+//Route::middleware('auth:sanctum')->get('/felhasznalo-megvett-termekek', [VasarlasFejController::class, 'getMegvettTermekek']);
+
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 }); 
  
 
-//Route::middleware(['auth:sanctum'])->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
+Route::middleware(['auth:sanctum'])->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
 
 
 Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
@@ -59,13 +59,7 @@ Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
 
 
 Route::middleware(['auth:sanctum'])->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
-//Route::get('/send-mail', [MailController::class, 'sendTestMail']);
- 
-//Route::get('send_mail', [MailController::class, 'index']);
-/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
- */
-/* Route::post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']); 
-//middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']-> */
+
 
 
 
