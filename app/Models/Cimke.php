@@ -12,4 +12,16 @@ class Cimke extends Model
     protected $fillable = [
         'elnevezes'
     ];
+
+/*     public function termekek()
+{
+    return $this->belongsToMany(Termek::class, 'kapcsolos', 'cimke_id', 'termek_id');
+} */
+
+
+public function termekek()
+{
+    return $this->belongsToMany(\App\Models\Termek::class, 'kapcsolos', 'cimke_id', 'termek_id');
+}
+
 }

@@ -17,26 +17,29 @@ class TermekController extends Controller
     //Termékek lekérdezése.
 
     public function index()
-    {
-        $user = Auth::user();
-    
-        $termekek = Termek::all()->map(function ($termek) use ($user) {
-            $termek->vasarolt = false;
-    
-            if ($user && $user->role !== 0) {
-                $termek->vasarolt = VasarlasTetel::where('termek_id', $termek->termek_id)
-                    ->whereHas('vasarlas', function ($q) use ($user) {
-                        $q->where('user_id', $user->id);
-                    })
-                   // ->where('lejarat_datum', '>', now())
-                    ->exists();
-            }
-    
-            return $termek;
-        });
-    
-        return response()->json($termekek);
-    }
+{
+    $user = Auth::user();
+
+    $termekek = Termek::all()->map(function ($termek) use ($user) {
+        $termek->vasarolt = false;
+
+        if ($user && $user->role !== 0) {
+            $termek->vasarolt = VasarlasTetel::where('termek_id', $termek->termek_id)
+                ->whereHas('vasarlas', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                })
+                ->exists();
+        }
+
+        // ✅ Címkék hozzárendelése a JSON válaszhoz
+        $termek->cimkek = $termek->cimkek()->pluck('elnevezes')->toArray();
+
+        return $termek;
+    });
+
+    return response()->json($termekek);
+}
+
     
     /* public function index()
     {
@@ -85,42 +88,68 @@ class TermekController extends Controller
     }
 
     public function store(Request $request)
-{
-    try {
-        $validated = $request->validate([
-            'cim' => 'required|string|max:255',
-            'bemutatas' => 'nullable|string',
-            'leiras' => 'nullable|string',
-            'url' => 'nullable|file|mimetypes:video/mp4,video/avi,video/mpeg|max:51200',
-            'hozzaferesi_ido' => 'required|integer',
-            'ar' => 'required|integer',
-            'jelzes' => 'nullable|string',
-            'kep' => 'nullable|image|max:2048',
-        ]);
+    {
+        try {
+            $validated = $request->validate([
+                'cim' => 'required|string|max:255',
+                'bemutatas' => 'nullable|string',
+                'leiras' => 'nullable|string',
+                'url' => 'nullable|file|mimetypes:video/mp4,video/avi,video/mpeg|max:51200',
+                'hozzaferesi_ido' => 'required|integer',
+                'ar' => 'required|integer',
+                'jelzes' => 'nullable|string',
+                'kep' => 'nullable|image|max:2048',
+            ]);
+    
+            // Kép mentése
+            if ($request->hasFile('kep')) {
+                $kep = $request->file('kep');
+                $kepNev = time() . '_' . $kep->getClientOriginalName();
+                $kep->move(public_path('kepek'), $kepNev);
+                $validated['kep'] = $kepNev;
+            }
+    
+            // Videó mentése
+            if ($request->hasFile('url')) {
+                $video = $request->file('url');
+                $videoNev = time() . '_' . $video->getClientOriginalName();
+                $video->move(public_path('videok'), $videoNev);
+                $validated['url'] = $videoNev;
+            }
+    
+            // Termék mentése
+            $termek = Termek::create($validated);
+    
+            // Címkék feldolgozása
+            if ($request->has('cimkek')) {
+                $cimkek = json_decode($request->input('cimkek'), true) ?? [];
 
-        if ($request->hasFile('kep')) {
-            $kep = $request->file('kep');
-            $kepNev = time() . '_' . $kep->getClientOriginalName();
-            $kep->move(public_path('kepek'), $kepNev); // ⬅️ ide kerül a public/kepek mappába
-            $validated['kep'] = $kepNev;
+    
+                foreach ($cimkek as $nev) {
+                    if (!is_string($nev) || trim($nev) === '') {
+                        continue; 
+                    }
+                
+                    $cimke = \App\Models\Cimke::firstOrCreate(['elnevezes' => trim($nev)]);
+                
+                    if ($cimke && $cimke->cimke_id) {
+                        \App\Models\Kapcsolo::firstOrCreate([
+                            'termek_id' => $termek->termek_id,
+                            'cimke_id' => $cimke->cimke_id
+                        ]);
+                    }
+                }
+            }
+    
+            return response()->json($termek, 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            Log::error('Hiba a termék mentésénél: ' . $e->getMessage());
+            return response()->json(['error' => 'Szerverhiba'], 500);
         }
-        
-
-        if ($request->hasFile('url')) {
-            $video = $request->file('url');
-            $videoNev = time() . '_' . $video->getClientOriginalName();
-            $video->move(public_path('videok'), $videoNev);
-            $validated['url'] = $videoNev;
-        }
-
-        $termek = Termek::create($validated);
-
-        return response()->json($termek, 201);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        return response()->json(['errors' => $e->errors()], 422);
     }
-}
-
+    
 
     
 
