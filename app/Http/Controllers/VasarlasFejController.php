@@ -93,7 +93,7 @@ class VasarlasFejController extends Controller
     }
 
 
-    
+
 
     public function update(Request $request, $id)
     {
@@ -136,24 +136,23 @@ class VasarlasFejController extends Controller
         return VasarlasFej::orderBy('created_at', 'desc')->first();
     }
 
-    public function ellenorizVasarlas($termekId)
+    /* public function ellenorizVasarlas($termekId)
     {
-        
+
         $user = Auth::user();
 
         // Admin mindig hozzáfér
         if ($user->role === 0) {
             return response()->json(['megvette' => true]);
         }
-    
+
         // Normál user: vásárlás ellenőrzés a kapcsolaton keresztül
         $megvette = VasarlasTetel::whereHas('vasarlas', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->where('termek_id', $termekId)->exists();
-    
-        return response()->json(['megvette' => $megvette]);
 
-    } 
+        return response()->json(['megvette' => $megvette]);
+    } */
 
     /* public function ellenorizVasarlas($termekId)
     {
@@ -176,4 +175,35 @@ class VasarlasFejController extends Controller
 
         return response()->json(['megvette' => $vasarolt]);
     } */
+
+    public function ellenorizVasarlas($termekId)
+    {
+        $user = Auth::user();
+
+        //  Admin: mindig hozzáfér, lejárati dátum nem kell
+        if ($user->role === 0) {
+            return response()->json([
+                'megvette' => true,
+                'lejarati_datum' => null, // opcionális, vagy ki is hagyható
+            ]);
+        }
+
+        //  Normál user: vásárlás + lejárat ellenőrzés
+        $tetel = VasarlasTetel::with(['vasarlas', 'termek'])
+            ->whereHas('vasarlas', fn($q) => $q->where('user_id', $user->id))
+            ->where('termek_id', $termekId)
+            ->get()
+            ->filter(function ($tetel) {
+                $vasarlasDatum = \Carbon\Carbon::parse($tetel->vasarlas->datum);
+                $ido = $tetel->termek->hozzaferesi_ido ?? 0;
+                $tetel->lejarati_datum = $vasarlasDatum->copy()->addDays($ido);
+                return $tetel->lejarati_datum->greaterThanOrEqualTo(now());
+            })
+            ->first();
+
+        return response()->json([
+            'megvette' => (bool) $tetel,
+            'lejarati_datum' => $tetel ? $tetel->lejarati_datum->format('Y.m.d') : null,
+        ]);
+    }
 }
