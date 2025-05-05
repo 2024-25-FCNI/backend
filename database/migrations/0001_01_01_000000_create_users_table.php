@@ -19,9 +19,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('role')->default(1);
+            $table->string('profilkep')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            //$table->string('profilkep')->nullable();
+            
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -44,6 +45,7 @@ return new class extends Migration
             'email' => 'admin@gmail.com',
             'password' => bcrypt('Admin123@'), // Admin jelszó titkosítva
             'role' => 0, // Admin szerepkör
+            'profilkep' => '',
         ]);
 
         User::create([
@@ -51,7 +53,8 @@ return new class extends Migration
             'email' => 'user@gmail.com',
             'password' => bcrypt('User123@'), // Felhasználó jelszó titkosítva
             'role' => 1, // Felhasználó szerepkör
-        ]);
+            'profilkep' => '',
+            ]);
 
     }
 
