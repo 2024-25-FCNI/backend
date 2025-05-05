@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('url');
             $table->integer('hozzaferesi_ido');
             $table->integer('ar');
-            $table->string('jelzes');
+            $table->integer('jelzes')->default(1);
            // $table->foreignId('cimke_id')->references('cimke_id')->on('cimkes');
             $table->longText('kep');
             $table->timestamps();
@@ -36,8 +36,7 @@ return new class extends Migration
                 'url' => 'https://drive.google.com/file/d/1LMqjnFgRrVg2-l3CtrejDaefkw9G7PVI/view?usp=drive_link',
                 'hozzaferesi_ido' => 30,
                 'ar' => 5000,
-                'jelzes' => 'új',
-                // 'cimke_id' => 1,
+                'jelzes' => 0,
                 'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -49,8 +48,7 @@ return new class extends Migration
                 'url' => '/termek2',
                 'hozzaferesi_ido' => 60,
                 'ar' => 8000,
-                'jelzes' => 'akciós',
-                // 'cimke_id' => 2,
+                'jelzes' => 0,
                 'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -62,8 +60,7 @@ return new class extends Migration
                 'url' => '/termek3',
                 'hozzaferesi_ido' => 90,
                 'ar' => 10000,
-                'jelzes' => 'top',
-                // 'cimke_id' => 3,
+                'jelzes' => 0,
                 'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -75,8 +72,7 @@ return new class extends Migration
                 'url' => '/termek4',
                 'hozzaferesi_ido' => 120,
                 'ar' => 15000,
-                'jelzes' => 'új',
-                // 'cimke_id' => 4,
+                'jelzes' => 0,
                 'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -88,8 +84,7 @@ return new class extends Migration
                 'url' => '/termek5',
                 'hozzaferesi_ido' => 180,
                 'ar' => 20000,
-                'jelzes' => 'akciós',
-                // 'cimke_id' => 5,
+                'jelzes' => 0,
                 'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -101,8 +96,7 @@ return new class extends Migration
                 'url' => '/termek6',
                 'hozzaferesi_ido' => 240,
                 'ar' => 25000,
-                'jelzes' => 'top',
-                // 'cimke_id' => 6,
+                'jelzes' => 0,
                 'kep' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
