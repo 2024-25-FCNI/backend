@@ -45,8 +45,8 @@ class VasarlasTetelController extends Controller
                 'termeks.cim',
                 'termeks.ar',
                 DB::raw('COUNT(vasarlas_tetels.termek_id) as darabszam'),
-                DB::raw('SUM(vasarlas_tetels.termek_id * termeks.ar) as osszBevetel')
-            )
+                DB::raw('COUNT(vasarlas_tetels.termek_id) * termeks.ar as osszBevetel')
+                )
             ->groupBy('termeks.termek_id', 'termeks.cim', 'termeks.ar');
  
         // Ha van dátumszűrés, akkor alkalmazzuk
