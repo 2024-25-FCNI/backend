@@ -97,6 +97,8 @@ class TermekController extends Controller
 
     public function store(Request $request)
     {
+
+        Log::debug('POST /api/termekek fogadva', ['request' => $request->all()]);
         try {
             $validated = $request->validate([
                 'cim' => 'required|string|max:255',
@@ -105,7 +107,7 @@ class TermekController extends Controller
                 'url' => 'nullable|file|mimetypes:video/mp4,video/avi,video/mpeg|max:51200',
                 'hozzaferesi_ido' => 'required|integer',
                 'ar' => 'required|integer',
-                'jelzes' => 'nullable|string',
+                'jelzes' => 'nullable|integer',
                 'kep' => 'nullable|image|max:2048',
             ]);
 
@@ -137,17 +139,23 @@ class TermekController extends Controller
                     if (!is_string($nev) || trim($nev) === '') {
                         continue;
                     }
-
+                
                     $cimke = \App\Models\Cimke::firstOrCreate(['elnevezes' => trim($nev)]);
-
-                    if ($cimke && $cimke->cimke_id) {
+                
+                    // újra lekérjük a cimkét biztosan friss ID-vel
+                    $frissCimke = \App\Models\Cimke::where('elnevezes', trim($nev))->first();
+                
+                    if ($frissCimke && $frissCimke->cimke_id) {
                         \App\Models\Kapcsolo::firstOrCreate([
                             'termek_id' => $termek->termek_id,
-                            'cimke_id' => $cimke->cimke_id
+                            'cimke_id' => $frissCimke->cimke_id
                         ]);
                     }
                 }
+                
             }
+
+            
 
             return response()->json($termek, 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
