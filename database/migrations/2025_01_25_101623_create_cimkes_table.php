@@ -20,38 +20,15 @@ return new class extends Migration
 
 
         Cimke::insert([
-            [
-                'elnevezes' => 'Új',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'elnevezes' => 'Akciós',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'elnevezes' => 'Kedvezményes',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'elnevezes' => 'Top termék',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'elnevezes' => 'Limitált kiadás',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'elnevezes' => 'Ajánlott',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            ['elnevezes' => 'Szalag', 'created_at' => now(), 'updated_at' => now()],
+            ['elnevezes' => 'Labda', 'created_at' => now(), 'updated_at' => now()],
+            ['elnevezes' => 'Karika', 'created_at' => now(), 'updated_at' => now()],
+            ['elnevezes' => 'Koreográfia', 'created_at' => now(), 'updated_at' => now()],
+            ['elnevezes' => 'Nyújtás', 'created_at' => now(), 'updated_at' => now()],
+            ['elnevezes' => 'Egyensúly', 'created_at' => now(), 'updated_at' => now()],
         ]);
-
+        
+        
         
 
     }

@@ -21,18 +21,16 @@ return new class extends Migration
             $table->timestamps();
         });
 
-    DB::table('kapcsolos')->insert([
-        ['termek_id' => 1, 'cimke_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 2, 'cimke_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 3, 'cimke_id' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 4, 'cimke_id' => 4, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 5, 'cimke_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 6, 'cimke_id' => 6, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 1, 'cimke_id' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 2, 'cimke_id' => 5, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 3, 'cimke_id' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ['termek_id' => 4, 'cimke_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-    ]);
+        DB::table('kapcsolos')->insert([
+            ['termek_id' => 1, 'cimke_id' => 1, 'created_at' => now(), 'updated_at' => now()], // Szalag
+            ['termek_id' => 2, 'cimke_id' => 5, 'created_at' => now(), 'updated_at' => now()], // Nyújtás
+            ['termek_id' => 3, 'cimke_id' => 2, 'created_at' => now(), 'updated_at' => now()], // Labda
+            ['termek_id' => 4, 'cimke_id' => 3, 'created_at' => now(), 'updated_at' => now()], // Karika
+            ['termek_id' => 5, 'cimke_id' => 6, 'created_at' => now(), 'updated_at' => now()], // Egyensúly
+            ['termek_id' => 6, 'cimke_id' => 1, 'created_at' => now(), 'updated_at' => now()], // Szalag (koreográfia)
+            ['termek_id' => 6, 'cimke_id' => 4, 'created_at' => now(), 'updated_at' => now()], // Koreográfia
+        ]);
+        
 }
 
 /**
