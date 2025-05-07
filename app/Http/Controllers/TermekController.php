@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Termek;
 use App\Models\VasarlasTetel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TermekController extends Controller
@@ -19,10 +20,10 @@ class TermekController extends Controller
     public function index()
     {
         $user = Auth::user();
-    
+
         $termekek = Termek::with('cimkek')->get()->map(function ($termek) use ($user) {
             $termek->vasarolt = false;
-    
+
             if ($user && $user->role !== 0) {
                 $tetel = VasarlasTetel::with('vasarlas')
                     ->where('termek_id', $termek->termek_id)
@@ -35,18 +36,18 @@ class TermekController extends Controller
                         $lejaratiDatum = $vasarlasDatum->copy()->addDays($termek->hozzaferesi_ido);
                         return $lejaratiDatum->isFuture(); // vagy: ->greaterThan(now())
                     });
-    
+
                 $termek->vasarolt = $tetel->isNotEmpty();
             }
-    
+
             $termek->cimkek = $termek->cimkek->pluck('elnevezes')->toArray();
-    
+
             return $termek;
         });
-    
+
         return response()->json($termekek);
     }
-    
+
 
 
     /* public function index()
@@ -139,12 +140,12 @@ class TermekController extends Controller
                     if (!is_string($nev) || trim($nev) === '') {
                         continue;
                     }
-                
+
                     $cimke = \App\Models\Cimke::firstOrCreate(['elnevezes' => trim($nev)]);
-                
+
                     // újra lekérjük a cimkét biztosan friss ID-vel
                     $frissCimke = \App\Models\Cimke::where('elnevezes', trim($nev))->first();
-                
+
                     if ($frissCimke && $frissCimke->cimke_id) {
                         \App\Models\Kapcsolo::firstOrCreate([
                             'termek_id' => $termek->termek_id,
@@ -152,10 +153,9 @@ class TermekController extends Controller
                         ]);
                     }
                 }
-                
             }
 
-            
+
 
             return response()->json($termek, 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -194,6 +194,19 @@ class TermekController extends Controller
             return response()->json(['error' => 'A termék nem található!'], 404);
         }
 
+        // Ellenőrzés: vásárolták-e már meg ezt a terméket?
+        $vasarlas = DB::table('vasarlas_tetels')
+            ->where('termek_id', $termek_id)
+            ->exists();
+
+        if ($vasarlas) {
+            return response()->json(['error' => 'A termék már meg lett vásárolva, nem törölhető.'], 403);
+        }
+
+        // Kapcsolatok törlése a pivot táblából
+        $termek->cimkek()->detach();
+
+        // Törlés
         $termek->delete();
 
         return response()->json(['message' => 'A termék sikeresen törölve!']);
