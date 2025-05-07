@@ -11,12 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class TermekController extends Controller
 {
-
-
-
-
     //Termékek lekérdezése.
-
     public function index()
     {
         $user = Auth::user();
@@ -48,23 +43,9 @@ class TermekController extends Controller
         return response()->json($termekek);
     }
 
-
-
-    /* public function index()
-    {
-        // Minden termék lekérdezése az adatbázisból
-        $termekek = Termek::all();
- 
-        // Válasz JSON formátumban
-        return response()->json($termekek);
-    } */
-
     public function show($id)
     {
         try {
-            Log::info("Lekérdezett termék ID: " . $id); // Debug log
-
-            // Mivel a táblában a kulcs neve 'termek_id', nem 'id', ezért módosítanunk kell a lekérdezést
             $termek = Termek::where('termek_id', $id)->first();
 
             if (!$termek) {
@@ -142,8 +123,6 @@ class TermekController extends Controller
                     }
 
                     $cimke = \App\Models\Cimke::firstOrCreate(['elnevezes' => trim($nev)]);
-
-                    // újra lekérjük a cimkét biztosan friss ID-vel
                     $frissCimke = \App\Models\Cimke::where('elnevezes', trim($nev))->first();
 
                     if ($frissCimke && $frissCimke->cimke_id) {
@@ -155,8 +134,6 @@ class TermekController extends Controller
                 }
             }
 
-
-
             return response()->json($termek, 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
@@ -165,9 +142,6 @@ class TermekController extends Controller
             return response()->json(['error' => 'Szerverhiba'], 500);
         }
     }
-
-
-
 
     public function update(Request $request, $id)
     {

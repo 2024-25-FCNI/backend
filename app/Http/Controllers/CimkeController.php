@@ -9,7 +9,7 @@ class CimkeController extends Controller
 {
     public function index()
     {
-        $cimkek = Cimke::pluck('elnevezes'); 
+        $cimkek = Cimke::pluck('elnevezes');
         return response()->json($cimkek);
     }
 

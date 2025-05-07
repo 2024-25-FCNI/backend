@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureEmailIsVerified
 {
     /**
-     * Handle an incoming request.
+     * Bejövő kérés kez.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */

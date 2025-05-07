@@ -12,23 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('csomagbans', function (Blueprint $table) {
-            /* $table->id('csomag_id');
-            $table->foreignId('termek_id')->references('termek_id')->on('termeks'); */    
             $table->primary(['csomag_id', 'termek_id']);
             $table->foreignId('csomag_id');
-            $table->foreignId('termek_id');       
+            $table->foreignId('termek_id');
             $table->timestamps();
-            
-           
-            
-            $table->foreign('csomag_id')
-                  ->references('termek_id')
-                  ->on('termeks')
-                  ->onDelete('cascade');
-            $table->foreign('termek_id')
-                  ->references('termek_id')
-                  ->on('termeks')
-                  ->onDelete('cascade');
+            $table->foreign('csomag_id')->references('termek_id')->on('termeks')->onDelete('cascade');
+            $table->foreign('termek_id')->references('termek_id')->on('termeks')->onDelete('cascade');
         });
     }
 

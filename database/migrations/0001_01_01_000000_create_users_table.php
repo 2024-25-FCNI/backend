@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('profilkep')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -51,11 +50,10 @@ return new class extends Migration
         User::create([
             'name' => 'Normal User',
             'email' => 'user@gmail.com',
-            'password' => bcrypt('User123@'), // Felhasználó jelszó titkosítva
+            'password' => bcrypt('User123@'),
             'role' => 1, // Felhasználó szerepkör
             'profilkep' => '',
-            ]);
-
+        ]);
     }
 
     /**

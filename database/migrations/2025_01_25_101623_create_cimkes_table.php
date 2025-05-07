@@ -27,10 +27,6 @@ return new class extends Migration
             ['elnevezes' => 'Nyújtás', 'created_at' => now(), 'updated_at' => now()],
             ['elnevezes' => 'Egyensúly', 'created_at' => now(), 'updated_at' => now()],
         ]);
-        
-        
-        
-
     }
 
     /**

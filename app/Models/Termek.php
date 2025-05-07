@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,26 +22,8 @@ class Termek extends Model
         'kep'
     ];
 
-    /* public function vasarlasok()
+    public function cimkek()
     {
-        return $this->hasMany(VasarlasTetel::class, 'termek_id');
-    } */
-
- /*    public function cimkek()
-{
-    return $this->belongsToMany(Cimke::class, 'kapcsolos', 'termek_id', 'cimke_id');
-} */
-
-/* public function cimkek()
-{
-    return $this->belongsToMany(\App\Models\Cimke::class, 'kapcsolos', 'termek_id', 'cimke_id');
-} */
-
-public function cimkek()
-{
-    return $this->belongsToMany(\App\Models\Cimke::class, 'kapcsolos', 'termek_id', 'cimke_id', 'termek_id', 'cimke_id');
-}
-
-
-
+        return $this->belongsToMany(\App\Models\Cimke::class, 'kapcsolos', 'termek_id', 'cimke_id', 'termek_id', 'cimke_id');
+    }
 }

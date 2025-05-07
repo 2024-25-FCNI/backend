@@ -5,20 +5,18 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response as HttpResponse;   
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Handle an incoming authentication request.
-     */
+    //Kezeli egy bejövő hitelesítési kérelmet
+
     public function store(LoginRequest $request): HttpResponse
     {
         $request->authenticate();
@@ -28,9 +26,9 @@ class AuthenticatedSessionController extends Controller
         return response()->noContent(HttpResponse::HTTP_NO_CONTENT);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+
+    // Hitelesített munkamenet megszüntetése
+
     public function destroy(Request $request): HttpResponse
     {
         Auth::guard('web')->logout();

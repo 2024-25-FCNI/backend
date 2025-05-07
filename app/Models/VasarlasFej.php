@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;   
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,7 @@ class VasarlasFej extends Model
 {
     use HasFactory;
 
-    protected $table = 'vasarlas_fejs'; 
+    protected $table = 'vasarlas_fejs';
     protected $primaryKey = 'vasarlas_id';
     public $incrementing = true;
     protected $keyType = 'int';
@@ -19,9 +19,8 @@ class VasarlasFej extends Model
         'osszeg',
         'datum'
     ];
-    
 
-     public function vasarlasTetel()
+    public function vasarlasTetel()
     {
         return $this->hasMany(VasarlasTetel::class, 'vasarlas_id');
     }
@@ -29,5 +28,5 @@ class VasarlasFej extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    } 
+    }
 }

@@ -10,17 +10,8 @@ use App\Http\Controllers\KapcsoloController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VasarlasFejController;
 use App\Http\Controllers\VasarlasTetelController;
-use App\Http\Controllers\MailController;
-
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;    
-
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-
-
-//Route::middleware('auth:sanctum')->get('/felhasznalo-megvett-termekek', [VasarlasFejController::class, 'getMegvettTermekek']);
-
-
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -28,12 +19,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
  
 Route::middleware('auth:sanctum')->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
 
-//Route::middleware(['auth:sanctum'])->post('/upload-profilkep', [UserController::class, 'uploadProfilkep']);
-
-
 Route::middleware(['auth:sanctum', 'admin'])->post('/termekek', [TermekController::class, 'store']);
-
-
 
 Route::middleware('web')->group(function () {
     Route::get('/sanctum/csrf-cookie', function (Request $request) {
@@ -41,46 +27,28 @@ Route::middleware('web')->group(function () {
     });
 });
 
-
-
-
 Route::middleware('auth:sanctum')->get('/ellenoriz-vasarlas/{termekId}', [VasarlasFejController::class, 'ellenorizVasarlas']);
 
-
-
 Route::post('/termekek', [TermekController::class, 'store']);
-
 
 Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword']);
 
-
 Route::middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])
     ->post('/vasarlas', [VasarlasFejController::class, 'store']);
 
-
 Route::middleware(['auth:sanctum'])->post('/send-payment-confirmation', [FizetesController::class, 'sendPaymentConfirmation']);
-
-
-
 
 Route::get('/vasarlasok-analitika', [VasarlasTetelController::class, 'getVasarlasAnalitika']);
 
 Route::get('/vasarlasok-analitika-idolepes', [VasarlasTetelController::class, 'getBevetelTrend']);
 
-
 Route::get('/felhasznalok', [UserController::class, 'index']);
-
-
-
-
 
 Route::get('/termekek', [TermekController::class, 'index']);
 Route::get('/termekek/{id}', [TermekController::class, 'show']);
 
 Route::delete('/felhasznalok/{id}', [UserController::class, 'destroy']);
-
-
 
 // Publikus végpontok
 Route::get('/termekek/legujabb', [TermekController::class, 'getLatestTermekek']);
@@ -107,32 +75,32 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 Route::post('/kapcsolo', [KapcsoloController::class, 'store']);
 
 //ALAPFUGGVENYEK
-// 🌟 Címkék (cimkes)
+// Címkék (cimkes)
 Route::get('/cimkek', [CimkeController::class, 'index']);          // Minden címke lekérdezése
 Route::get('/cimkek/{id}', [CimkeController::class, 'show']);       // Egy címke lekérdezése
 Route::post('/cimkek', [CimkeController::class, 'store']);         // Új címke létrehozása
 Route::put('/cimkek/{id}', [CimkeController::class, 'update']);    // Címke módosítása
 Route::delete('/cimkek/{id}', [CimkeController::class, 'destroy']); // Címke törlése
 
-// 🌟 Kapcsolók (kapcsolos) - Termékek és címkék összekapcsolása
+// Kapcsolók (kapcsolos) - Termékek és címkék összekapcsolása
 Route::get('/kapcsolok', [KapcsoloController::class, 'index']);   // Minden kapcsolat lekérdezése
 Route::post('/kapcsolok', [KapcsoloController::class, 'store']);  // Új kapcsolat létrehozása
 Route::delete('/kapcsolok/{termek_id}/{cimke_id}', [KapcsoloController::class, 'destroy']); // Kapcsolat törlése
 
-// 🌟 Termékek (termeks)
+// Termékek (termeks)
 Route::get('/termekek/{id}', [TermekController::class, 'show']);       // Egy termék lekérdezése
 Route::post('/termekek', [TermekController::class, 'store']);         // Új termék létrehozása
 Route::delete('/termekek/{termek_id}', [TermekController::class, 'destroy']);
 
 
-// 🌟 Vásárlások Fejlécei (vasarlas_fejs)
+// Vásárlások Fejlécei (vasarlas_fejs)
 Route::get('/vasarlasok', [VasarlasFejController::class, 'index']);    // Minden vásárlás lekérdezése
 Route::get('/vasarlasok/{id}', [VasarlasFejController::class, 'show']); // Egy vásárlás lekérdezése
 Route::post('/vasarlasok', [VasarlasFejController::class, 'store']);   // Új vásárlás létrehozása
 Route::put('/vasarlasok/{id}', [VasarlasFejController::class, 'update']); // Vásárlás módosítása
 Route::delete('/vasarlasok/{id}', [VasarlasFejController::class, 'destroy']); // Vásárlás törlése
 
-// 🌟 Vásárlások Tételei (vasarlas_tetels)
+// Vásárlások Tételei (vasarlas_tetels)
 Route::get('/vasarlas_tetelek', [VasarlasTetelController::class, 'index']);   // Minden vásárlási tétel lekérdezése
 Route::post('/vasarlas_tetelek', [VasarlasTetelController::class, 'store']);  // Új vásárlási tétel hozzáadása
 Route::delete('/vasarlas_tetelek/{vasarlas_id}/{termek_id}', [VasarlasTetelController::class, 'destroy']); // Vásárlási tétel törlése

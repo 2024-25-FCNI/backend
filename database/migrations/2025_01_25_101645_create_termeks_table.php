@@ -21,10 +21,8 @@ return new class extends Migration
             $table->integer('hozzaferesi_ido');
             $table->integer('ar');
             $table->integer('jelzes')->default(1);
-           // $table->foreignId('cimke_id')->references('cimke_id')->on('cimkes');
             $table->longText('kep');
             $table->timestamps();
-
         });
 
 
@@ -102,10 +100,6 @@ return new class extends Migration
                 'updated_at' => now(),
             ],
         ]);
-        
-        
-    
-
     }
 
     /**

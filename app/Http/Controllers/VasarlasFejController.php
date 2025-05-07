@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\VasarlasFej;
 use App\Models\VasarlasTetel;
-use App\Models\Termek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,19 +12,6 @@ use Illuminate\Support\Facades\Log;
 
 class VasarlasFejController extends Controller
 {
-    /* public function ellenorizVasarlas($termekId)
-    {
-        $user = Auth::user();
-
-        // 🔹 Megkeressük a vásárlás fejlécét, hogy a user valóban megvette-e a terméket
-        $vasarolt = VasarlasTetel::where('user_id', $user->id)
-            ->where('termek_id', $termekId)
-            ->where('lejarat_datum', '>', now()) // Hozzáférési idő még nem járt le
-            ->exists();
-
-        return response()->json(['megvette' => $vasarolt]);
-    } */
-
     public function index()
     {
         return response()->json(VasarlasFej::all());
@@ -38,12 +24,10 @@ class VasarlasFejController extends Controller
 
     public function store(Request $request)
     {
-
         Log::debug('Vasarlas store kérés:', [
             'user' => Auth::user(),
             'input' => $request->all()
         ]);
-
 
         $user = Auth::user();
 
@@ -54,14 +38,14 @@ class VasarlasFejController extends Controller
         DB::beginTransaction();
 
         try {
-            // 🔹 Vásárlás fejléc (vasarlas_fejs) létrehozása
+            // Vasarlas_fejs létrehozása
             $vasarlas = VasarlasFej::create([
                 'user_id' => $user->id,
                 'osszeg' => $request->input('vasarlas.osszeg'),
                 'datum' => $request->input('vasarlas.datum'),
             ]);
 
-            // 🔹 Vásárlási tételek (vasarlas_tetels)
+            // Vásárlási tételek 
             $tetelek = $request->input('tetelek', []);
 
             foreach ($tetelek as $tetel) {
@@ -91,9 +75,6 @@ class VasarlasFejController extends Controller
             return response()->json(['error' => 'Hiba a vásárlás mentésekor.'], 500);
         }
     }
-
-
-
 
     public function update(Request $request, $id)
     {
@@ -136,59 +117,19 @@ class VasarlasFejController extends Controller
         return VasarlasFej::orderBy('created_at', 'desc')->first();
     }
 
-    /* public function ellenorizVasarlas($termekId)
-    {
-
-        $user = Auth::user();
-
-        // Admin mindig hozzáfér
-        if ($user->role === 0) {
-            return response()->json(['megvette' => true]);
-        }
-
-        // Normál user: vásárlás ellenőrzés a kapcsolaton keresztül
-        $megvette = VasarlasTetel::whereHas('vasarlas', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->where('termek_id', $termekId)->exists();
-
-        return response()->json(['megvette' => $megvette]);
-    } */
-
-    /* public function ellenorizVasarlas($termekId)
-    {
-        $user = Auth::user();
-
-        if ($user->role === 0) {
-            return response()->json(['megvette' => true]);
-        }
-
-        $vasarolt = VasarlasTetel::with(['vasarlas', 'termek'])
-            ->whereHas('vasarlas', fn($q) => $q->where('user_id', $user->id))
-            ->where('termek_id', $termekId)
-            ->get()
-            ->filter(function ($tetel) {
-                $vasarlasDatum = \Carbon\Carbon::parse($tetel->vasarlas->datum);
-                $ido = $tetel->termek->hozzaferesi_ido ?? 0;
-                return $vasarlasDatum->copy()->addDays($ido)->greaterThanOrEqualTo(now());
-            })
-            ->isNotEmpty();
-
-        return response()->json(['megvette' => $vasarolt]);
-    } */
-
     public function ellenorizVasarlas($termekId)
     {
         $user = Auth::user();
 
-        //  Admin: mindig hozzáfér, lejárati dátum nem kell
+        //  Admin: mindig hozzáfér
         if ($user->role === 0) {
             return response()->json([
                 'megvette' => true,
-                'lejarati_datum' => null, // opcionális, vagy ki is hagyható
+                'lejarati_datum' => null,
             ]);
         }
 
-        //  Normál user: vásárlás + lejárat ellenőrzés
+        // User: vásárlás + lejárat ellenőrzés
         $tetel = VasarlasTetel::with(['vasarlas', 'termek'])
             ->whereHas('vasarlas', fn($q) => $q->where('user_id', $user->id))
             ->where('termek_id', $termekId)

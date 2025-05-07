@@ -11,7 +11,6 @@ class Kapcsolo extends Model
     use HasFactory;
     protected $fillable = [
         'termek_id',
-        'cimke_id',
-        
+        'cimke_id',     
     ];
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;   
+use Illuminate\Database\Eloquent\Model;
 
 class VasarlasTetel extends Model
 {
@@ -12,8 +12,6 @@ class VasarlasTetel extends Model
     protected $table = 'vasarlas_tetels';
     protected $primaryKey = 'tetel_id';
 
-    
-
     protected $fillable = [
         'vasarlas_id',
         'termek_id',
@@ -21,12 +19,11 @@ class VasarlasTetel extends Model
 
     public function vasarlas()
     {
-        return $this->belongsTo(VasarlasFej::class, 'vasarlas_id'); //, 'vasarlas_id'
+        return $this->belongsTo(VasarlasFej::class, 'vasarlas_id'); 
     }
 
     public function termek()
     {
         return $this->belongsTo(Termek::class, 'termek_id');
     }
- 
 }

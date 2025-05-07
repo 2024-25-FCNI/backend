@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 
@@ -21,8 +20,6 @@ class UserController extends Controller
         }
     }
 
-
-
     public function destroy($id)
     {
         User::find($id)->delete();
@@ -33,24 +30,23 @@ class UserController extends Controller
         $request->validate([
             'profilkep' => 'required|image|max:2048',
         ]);
-    
+
         $user = Auth::user();
-    
+
         if (!$user) {
             return response()->json(['error' => 'Nem vagy bejelentkezve.'], 401);
         }
-    
+
         $file = $request->file('profilkep');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path('profilkep'), $filename); // kép mentése
-    
-        // ⬇️ közvetlen frissítés
+
+        // közvetlen frissítés
         DB::table('users')->where('id', $user->id)->update([
             'profilkep' => $filename,
-            'updated_at' => now(), // ha timestamps is van
+            'updated_at' => now(),
         ]);
-    
+
         return response()->json(['profilkep' => $filename]);
     }
-    
 }
